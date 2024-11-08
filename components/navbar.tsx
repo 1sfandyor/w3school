@@ -31,13 +31,11 @@ const MainNavbar = () => {
 
   return (
       <>
-      <header className="flex flex-col fixed w-full top-0 z-50">
+      <header className="flex flex-col fixed w-full top-0 z-50 text-white-2">
         <nav className="w-full flex items-center relative bg-darkGreen-1 justify-between z-50">
           <div className="flex">
-            <Link
-              className="flex items-center justify-center py-2 px-4 shrink-0"
-              href={"/"}
-            >
+            <Link className="flex items-center justify-center py-2 px-4 shrink-0"
+              href={"/"}>
               <Image
                 alt="Logo"
                 className="flex w-[38px] h-[36px] shrink-0"

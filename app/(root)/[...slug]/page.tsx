@@ -5,10 +5,12 @@ import { css } from '@/data/lessons/css';
 import { javascript } from '@/data/lessons/js';
 import type { Lesson } from '@/types/sidebar';
 import './style.css';
-const Page = async ({ params }: { params: { slug: string[] } }) => {
+
+type Params = Promise<{ slug: string[] }>;
+
+const Page = async ({ params }: { params: Params }) => {
 
   const getCurrentLesson = async (slugParams: string[]): Promise<Lesson | null> => {
-
     const [technology] = slugParams;
     let currentTechnology;
 
@@ -40,7 +42,8 @@ const Page = async ({ params }: { params: { slug: string[] } }) => {
     return null;
   };
 
-  const lesson = await getCurrentLesson(params.slug);
+  const resolvedParams = await params;
+  const lesson = await getCurrentLesson(resolvedParams.slug);
   if (!lesson) return notFound();
 
   return (
