@@ -40,8 +40,7 @@ const Page = async ({ params }: { params: { slug: string[] } }) => {
     return null;
   };
 
-  const resolvedParams = await params;
-  const lesson = await getCurrentLesson(resolvedParams.slug);
+  const lesson = await getCurrentLesson(params.slug);
   if (!lesson) return notFound();
 
   return (
