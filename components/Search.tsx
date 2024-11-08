@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, Fragment } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -96,18 +96,18 @@ export default function SearchComponent() {
   
   return (
     <div className="w-full max-w-md mx-auto relative text-black-1">
-      <form onSubmit={handleSearch} className="relative">
+      <form className="relative" onSubmit={handleSearch}>
         <Input
-          type="text"
+          className="pr-10 rounded-full bg-white-2  dark:bg-gray-800/90 border-green-500 focus:ring-green-500 focus:border-green-500"
           placeholder="Search..."
+          type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="pr-10 rounded-full bg-white-2  dark:bg-gray-800/90 border-green-500 focus:ring-green-500 focus:border-green-500"
         />
         <Button
-          type="submit"
-          className="absolute right-0 top-0 h-full px-3 rounded-full border-none bg-transparent hover:bg-transparent shadow-none "
           aria-label="Search"
+          className="absolute right-0 top-0 h-full px-3 rounded-full border-none bg-transparent hover:bg-transparent shadow-none "
+          type="submit"
         >
           <Search className="h-4 w-4 text-black-1" />
         </Button>
@@ -116,7 +116,14 @@ export default function SearchComponent() {
       {suggestions.length > 0 && (
         <ul className="absolute z-10 w-full mt-1 px-3 bg-pink-50 border border-pink-200 rounded-md shadow-lg overflow-hidden" role="listbox">
           {suggestions.map((suggestion, index) => (
-            <li key={index} role="option" aria-selected={false} className="w-full text-left  flex py-2 hover:bg-pink-100 hover:text-black-1" onClick={() => handleSuggestionClick(suggestion)}>
+            <li key={index} 
+              aria-selected={false} 
+              className="w-full text-left flex py-2 hover:bg-pink-100 hover:text-black-1" 
+              role="option" 
+              tabIndex={0}
+              onClick={() => handleSuggestionClick(suggestion)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSuggestionClick(suggestion)}
+            >
                 {highlightMatch(suggestion, query)}
             </li>
           ))}
@@ -130,9 +137,9 @@ export default function SearchComponent() {
           </DialogHeader>
           <div className="mt-2 whitespace-pre-wrap">{searchResults}</div>
           <Button 
-            onClick={() => window.open(`https://www.w3uzbek.uz/#gsc.tab=0&gsc.q=${encodeURIComponent(query)}`, '_blank')}
             className="mt-4"
-          >
+            onClick={() => window.open(`https://www.w3uzbek.uz/#gsc.tab=0&gsc.q=${encodeURIComponent(query)}`, '_blank')}
+            >
             Search on W3Uzbek
           </Button>
         </DialogContent>

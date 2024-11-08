@@ -31,7 +31,7 @@ const RadioExercise = ({task, test}: RadioExerciseProps) => {
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data.variant);
+    return data;
   }
 
   return (
