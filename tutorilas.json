@@ -1,0 +1,54 @@
+
+
+const tutorials = [
+  {
+    title: "HTML and CSS",
+    items: [
+      { name: "Learn HTML", tutorial: "#", reference: "#" },
+      { name: "Learn CSS", tutorial: "#", reference: "#" },
+      { name: "Learn RWD", tutorial: "#" },
+      { name: "Learn Bootstrap", overview: "#" },
+      { name: "Learn W3.CSS", tutorial: "#", reference: "#" },
+      { name: "Learn Sass", tutorial: "#", reference: "#" },
+      { name: "Learn Colors", tutorial: "#", reference: "#" },
+      { name: "Learn Icons", tutorial: "#", reference: "#" },
+      { name: "Learn SVG", tutorial: "#", reference: "#" },
+      { name: "Learn Canvas", tutorial: "#", reference: "#" },
+      { name: "Learn Graphics", tutorial: "#" },
+      { name: "Learn Character Sets", reference: "#" },
+      { name: "Learn How To", tutorial: "#" },
+    ],
+  },
+  {
+    title: "JavaScript",
+    items: [
+      { name: "Learn JavaScript", tutorial: "#", reference: "#" },
+      { name: "Learn React", tutorial: "#" },
+      { name: "Learn jQuery", tutorial: "#", reference: "#" },
+      { name: "Learn Vue", tutorial: "#", reference: "#" },
+      { name: "Learn AngularJS", tutorial: "#", reference: "#" },
+      { name: "Learn JSON", tutorial: "#", reference: "#" },
+      { name: "Learn AJAX", tutorial: "#" },
+      { name: "Learn AppML", tutorial: "#", reference: "#" },
+      { name: "Learn W3.JS", tutorial: "#", reference: "#" },
+    ],
+  },
+  {
+    title: "Backend",
+    items: [
+      { name: "Learn Python", tutorial: "#", reference: "#" },
+      { name: "Learn SQL", tutorial: "#", reference: "#" },
+      { name: "Learn MySQL", tutorial: "#", reference: "#" },
+      { name: "Learn PHP", tutorial: "#", reference: "#" },
+      { name: "Learn Java", tutorial: "#", reference: "#" },
+      { name: "Learn C", tutorial: "#", reference: "#" },
+      { name: "Learn C++", tutorial: "#", reference: "#" },
+      { name: "Learn C#", tutorial: "#" },
+      { name: "Learn R", tutorial: "#" },
+      { name: "Learn Kotlin", tutorial: "#" },
+      { name: "Learn Go", tutorial: "#" },
+      { name: "Learn Django", tutorial: "#", reference: "#" },
+      { name: "Learn PostgreSQL", tutorial: "#" },
+    ],
+  },
+];
