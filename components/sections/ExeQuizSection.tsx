@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 const ExeQuizSection = () => {
   return (
-    <section className='w-full h-full bg-darkGreen-2  text-white-2 py-[64px] lt:pb-0 px-5'>
+    <section className='w-full bg-darkGreen-2  text-white-2 py-[64px] xl px-5'>
       <Header className='text-center ' 
       headerClass='my-2.5 text-5xl font-bold leading-[4rem]'
       text='Bilimlaringizni sinab ko&apos;ring' 

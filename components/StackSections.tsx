@@ -28,12 +28,12 @@ const StackSections = ({ bgColor, title, description, buttons, buttonBg, buttonT
             <Link key={index} 
               className={
                 cn(
-                  index == 0 && 'text-black-1',
-                  `text-[18px] mx-auto w-[200px] !text-white-2 px-4 py-2 rounded-full`
+                  button.bg === '#fff4a3' || button.bg === '#FFB3BB' || button.bg === '#E7E9EB' ? '!text-black-1' : 'text-white-2',
+                  `text-[18px] mx-auto w-[200px] px-4 py-2 rounded-full`
                 )
               } 
               href={button.url}
-              style={{ backgroundColor: button.bg }}>
+              style={{backgroundColor: button.bg}}>
               {button.text}
             </Link>
           ))}

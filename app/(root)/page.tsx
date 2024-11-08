@@ -23,7 +23,7 @@ export default function Home() {
       <Hero />
 
       {/* WAVE */}
-      <svg className="w-full h-[70xp]" preserveAspectRatio="none" style={{backgroundColor:"#D9EEE1"}} viewBox="0 0 100 100" >
+      <svg className="w-full h-[70px]" preserveAspectRatio="none" style={{backgroundColor:"#D9EEE1"}} viewBox="0 0 100 100" >
         <path d="M0,0  L110,0C35,150 35,0 0,100z" fill="#282A35" id="wavepath"/>
       </svg>
 

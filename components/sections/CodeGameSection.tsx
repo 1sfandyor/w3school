@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const CodeGameSection = () => {
   return (
-    <section className='w-full h-full bg-green-3 text-black-1 py-10'>
+    <section className='w-full bg-green-3 text-black-1 py-10'>
       <div className='flex flex-col items-center justify-center text-center w-full h-full p-[3%]'>
         <h1 className={cn(freckle.className, 'text-[55px] font-bold mb-2.5 slt:text-6xl mmd:text-[48px]')}>Code Game</h1>
         <p className={cn(freckle.className, 'text-xl mb-5 slt:text-3xl md:text-2xl')}>
