@@ -90,7 +90,7 @@ const MainNavbar = () => {
 
               {/* SEARCH INPUT */}
               <div className="px-2 relative py-2.5 hidden xlt:flex smd:hidden mmd:flex">
-                <SearchComponent />
+                <SearchComponent className="" />
               </div>
 
               {/* TOGGLE MODE */}
@@ -110,9 +110,11 @@ const MainNavbar = () => {
                 className={`shrink-0 text-nowrap hidden ${
                   link.title === "Sertifikat olish"
                     ? "lt:flex xlt:hidden lmd:flex  mmd:hidden llp:flex"
-                    : link.title === "Spaces"
-                      ? "mlp:flex"
-                      : "mlg:flex"
+                  : link.title === "Spaces"
+                    ? "mlp:flex"
+                  : link.title === "O'qituvchilarga"
+                    ? "mlg:flex"
+                    : "xl:flex"
                 }`}
               >
                 <Link

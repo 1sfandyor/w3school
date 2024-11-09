@@ -5,10 +5,12 @@ import Image from 'next/image';
 import { extraLinks, footerItems, footerLinks } from '@/data/footer';
 import { socials } from '@/data/socials';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import clsx from 'clsx';
+import { sourceSansPro } from '@/config/fonts';
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-black-3 flex flex-col mlp:!bg-[600px_auto,auto_auto] slp:!bg-[position:right_bottom,right_top] items-center slp:items-start justify-center pt-10 px-12 pb-[450px] slp:pb-[250px]"
+    <footer className={clsx("w-full bg-black-3 flex flex-col mlp:!bg-[600px_auto,auto_auto] slp:!bg-[position:right_bottom,right_top] items-center slp:items-start justify-center pt-10 px-12 pb-[450px] slp:pb-[250px]", sourceSansPro.className)}
     style={{
       backgroundImage: "url('/lynx_landing.webp'), url('/bg_sky_darker.gif')",
       backgroundRepeat: "no-repeat, repeat",
@@ -18,13 +20,14 @@ const Footer = () => {
   
 >
       
+      <div className='flex flex-col justify-center mx-auto max-w-[1240px]'>
         <div className='flex flex-col items-center justify-center slp:flex-row slt:w-full slt:justify-start slp:ml-10'>
           <div className='flex flex-col py-2.5 px-5 w-full slp:w-fit items-center justify-center'>
             <Image alt='w3schools logo' className='text-white-1' height={46} src={logo.src} width={49} />
           </div>
 
           {/* FOOTER ITEMS YELLLOW */}
-          <ul className='flex flex-col items-center justify-center slp:flex-row w-full'>
+          <ul className='flex flex-col items-center justify-start slp:flex-row w-full'>
             {
               footerItems.map((item, index) => (
                 <li key={index} className='flex flex-col items-center justify-center w-full py-2.5 px-5 slp:w-fit slp:px-2.5' >
@@ -42,13 +45,13 @@ const Footer = () => {
         <div className='flex flex-col items-center slp:items-start justify-center slp:flex-row slt:w-full slt:justify-start'>
           {
             footerLinks.map((item, index) => (
-              <div key={index}  className="flex text-white-1 flex-col items-center slp:items-start justifiy-center slp:justify-start slp:pl-10 slp:pr-[8%]">
+              <div key={index}  className="flex text-white-1 flex-col items-center slp:items-start justifiy-center slp:justify-start slp:pl-10 slp:pr-[3%]">
                 <h2 className=' text-[26px] slp:text-lg mt-10  slp:font-bold mb-5 leading-[1.5] font-semibold text-center slp:text-start'>{item.name}</h2>
                   <ul className='flex flex-col items-center slp:items-start justify-center slp:justify-start text-center slp:text-start'>
                     {
                       item.items?.map((item, index) => (
-                        <li key={index}>
-                          <Link className='text-base slp:text-xs hover:text-yellow-1  leading-[1.5] font-semibold text-center slp:text-start' href={item.href}>
+                        <li key={index} className='slp:leading-none'>
+                          <Link className='text-base leading-[1.5] slp:leading-none slp:text-xs hover:text-yellow-1 font-semibold slp:font-normal text-center slp:text-start' href={item.href}>
                             {item.name}
                           </Link>
                         </li>
@@ -88,7 +91,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        <div className='flex flex-col items-center justify-center slp:items-start slp:text-start slp:justify-start slp:ml-10 slp:max-w-[600px]'>
+        <div className='flex flex-col items-center justify-center slp:items-start slp:text-start slp:ml-10 slp:max-w-[600px] slp:justify-start'>
           <p className='text-gray-2 text-xs leading-[1.5] text-center slp:text-start mt-5'>
             W3Schools o&apos;qitish va o&apos;rganish uchun optimallashtirilgan ta&apos;lim platformasidir. O&apos;qish va o&apos;rganishni yaxshilash uchun keltirilgan misollar soddalashtirilgan. Qo&apos;llanmalar, havolalar va misollar xatolarga yo&apos;l qo&apos;ymaslik uchun doimiy tarzda ko&apos;rib chiqiladi, ammo biz ammo biz barcha kontentning to&apos;liq to&apos;g&apos;riligiga kafolat bera olmaymiz. W3Schools-dan foydalanganizda bizning
             <span> </span> 
@@ -100,6 +103,7 @@ const Footer = () => {
             Mualliflik huquqi 1999-2024 Refsnes Data tomonidan. Barcha huquqlar himoyalangan. W3Schools W3.CSS tomonidan quvvatlanadi.
           </p>
         </div>
+      </div>
     </footer>
   )
 }

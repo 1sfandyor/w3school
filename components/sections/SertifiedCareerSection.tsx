@@ -14,7 +14,7 @@ type CertifiedCareerSectionProps = {
 
 const SertifiedCareerSection = ({className, headerClassName, textClassName}: CertifiedCareerSectionProps) => {
   return (
-    <div className={cn('flex flex-col w-full items-center justify-center bg-darkGreen-2 px-[10%] pb-[64px] relative', className)}>
+    <div className={cn('flex flex-col w-full items-center justify-center bg-darkGreen-2 px-[10%] llp:px-[17%] pb-[64px] relative', className)}>
       <Header className={cn('text-pink-1 flex !items-start text-left !justify-start')}
       headerClass={cn('text-[48px] xlt:text-[55px] font-semibold text-start mt-16 mmd:text-6xl', headerClassName)}
       text='Kursni tugatib sertifikat oling'

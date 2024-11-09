@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Search } from "lucide-react"
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { cn } from '@/lib/utils'
 
 const localTopics = [
   "HTML Tutorial",
@@ -30,7 +32,7 @@ const localTopics = [
   "Vue.js Tutorial",
 ]
 
-export default function SearchComponent() {
+export default function SearchComponent({className, btn = false}: {className?: string, btn?: boolean}) {
   const [query, setQuery] = useState('')
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [showModal, setShowModal] = useState(false)
@@ -41,7 +43,7 @@ export default function SearchComponent() {
     if (query) {
       const filteredTopics = localTopics
         .filter(topic => topic.toLowerCase().includes(query.toLowerCase()))
-        .slice(0, 7)  // Limit to 7 suggestions
+        .slice(0, 7)
       setSuggestions(filteredTopics.length > 0 ? [...filteredTopics, 'Search W3Schools'] : ['Search W3Schools'])
     } else {
       setSuggestions([])
@@ -52,11 +54,11 @@ export default function SearchComponent() {
     e.preventDefault()
     if (query) {
       if (suggestions.length > 1 || (suggestions.length === 1 && suggestions[0] !== 'Search W3Schools')) {
-        // Local search result found
+        
         const section = suggestions[0].split(' ')[0].toLowerCase()
         router.push(`/${section}`)
       } else {
-        // Simulate external search
+        
         const externalResults = await simulateExternalSearch(query)
         setSearchResults(externalResults)
         setShowModal(true)
@@ -65,8 +67,8 @@ export default function SearchComponent() {
   }
 
   const simulateExternalSearch = async (query: string): Promise<string> => {
-    // In a real application, this would be an actual API call
-    await new Promise(resolve => setTimeout(resolve, 1000)) // Simulate network delay
+    
+    await new Promise(resolve => setTimeout(resolve, 1000))
     return `External search results for "${query}":\n` +
       `1. Result 1 for ${query}\n` +
       `2. Result 2 for ${query}\n` +
@@ -98,18 +100,18 @@ export default function SearchComponent() {
     <div className="w-full max-w-md mx-auto relative text-black-1">
       <form className="relative" onSubmit={handleSearch}>
         <Input
-          className="pr-10 rounded-full bg-white-2  dark:bg-gray-800/90 border-green-500 focus:ring-green-500 focus:border-green-500"
-          placeholder="Search..."
+          className={cn("!leading-normal rounded-full bg-white-2 dark:bg-gray-800/90", className)}
+          placeholder="Qidirish..."
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
         <Button
           aria-label="Search"
-          className="absolute right-0 top-0 h-full px-3 rounded-full border-none bg-transparent hover:bg-transparent shadow-none "
+          className={cn("absolute right-0 top-0 h-full px-3 w-fit rounded-full  border-none bg-transparent hover:bg-transparent shadow-none ", btn && "w-[20%] bg-green-1 rounded-l-none hover:bg-green-1/90")}
           type="submit"
         >
-          <Search className="h-4 w-4 text-black-1" />
+          <FontAwesomeIcon icon={faSearch} className={cn("text-black-2 w-5 h-5", btn && "text-white-2")} size="lg"/>    
         </Button>
       </form>
       
@@ -133,14 +135,14 @@ export default function SearchComponent() {
       <Dialog open={showModal} onOpenChange={setShowModal}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Search Results</DialogTitle>
+            <DialogTitle>Qidiruv natijalari</DialogTitle>
           </DialogHeader>
           <div className="mt-2 whitespace-pre-wrap">{searchResults}</div>
           <Button 
             className="mt-4"
             onClick={() => window.open(`https://www.w3uzbek.uz/#gsc.tab=0&gsc.q=${encodeURIComponent(query)}`, '_blank')}
             >
-            Search on W3Uzbek
+            W3Schools.uz da qidirish
           </Button>
         </DialogContent>
       </Dialog>

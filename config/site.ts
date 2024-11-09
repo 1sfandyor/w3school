@@ -1,8 +1,9 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Next.js + NextUI",
-  description: "Make beautiful websites regardless of your design experience.",
+  name: "W3Schools Online Veb Darsliklari",
+  description: "HTML, CSS, JavaScript, SQL, Python, PHP, Bootstrap, Java, \
+  XML va boshqa texnologiyalardan foydalanish bo'yicha ko'plab misollar bilan yaxshi tashkil etilgan va tushunarli veb-dasturlash darsliklari.",
   navItems: [
     {
       label: "Home",
@@ -58,12 +59,5 @@ export const siteConfig = {
       label: "Logout",
       href: "/logout",
     },
-  ],
-  links: {
-    github: "https://github.com/nextui-org/nextui",
-    twitter: "https://twitter.com/getnextui",
-    docs: "https://nextui.org",
-    discord: "https://discord.gg/9b6yyZKmH4",
-    sponsor: "https://patreon.com/jrgarciadev",
-  },
+  ]
 };

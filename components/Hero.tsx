@@ -18,7 +18,7 @@ const Hero = () => {
           <h3 className='text-[19px] lt:text-[23px] text-yellow-1 font-bold my-5'>uchun dunyodagi eng katta sayt.</h3>
 
           <br />
-          <SearchComponent />
+          <SearchComponent className="h-11" btn/>
           <Link className='text-white-2 text-nowrap underline text-[18px] lt:text-[23px] mt-[30px] capitalize font-bold hover:text-yellow-1' href='/'>
             Qayerdan boshlashni bilmayapsizmi ?
           </Link>

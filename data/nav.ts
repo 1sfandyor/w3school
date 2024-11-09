@@ -12,6 +12,13 @@ export const nav = [
 ];
 
 export const links = [
+  
+  { 
+    id: id(), 
+    title: "Plus", 
+    path: "/plus", 
+    icons: faWandMagicSparkles 
+  },
   {
     id: id(),
     title: "O'qituvchilarga",
