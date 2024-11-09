@@ -26,7 +26,7 @@ export default function W3Button({
   ...props
 }: CustomButtonProps) {
   const baseStyles = cn(
-    "font-medium transition-colors text-white-2",
+    "font-medium transition-colors text-white-2", sourceSansPro.className,
     // Variant styles
     variant === 'primary' && "bg-emerald-600 hover:bg-emerald-700 text-white-2",
     variant === 'secondary' && "bg-gray-100 hover:bg-gray-200 text-gray-900",

@@ -20,7 +20,7 @@ import { sourceSansPro } from "@/config/fonts";
 
 export default function Home() {
   return (
-    <section className={clsx("flex flex-col items-start w-full h-full font-sansPro", sourceSansPro.className)}>
+    <section className={clsx("flex flex-col items-start w-full h-full font-sourceSansPro", sourceSansPro.className)}>
       {/* HERO */}
       <Hero />
 
