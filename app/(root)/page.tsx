@@ -15,10 +15,12 @@ import ExeQuizSection from "@/components/sections/ExeQuizSection";
 import WebTemplatesSection from "@/components/sections/WebTemplatesSection";
 import SertifiedCareerSection from "@/components/sections/SertifiedCareerSection";
 import HowToSection from "@/components/sections/HowToSection";
+import clsx from "clsx";
+import { sourceSansPro } from "@/config/fonts";
 
 export default function Home() {
   return (
-    <section className="flex flex-col items-start w-full h-full">
+    <section className={clsx("flex flex-col items-start w-full h-full font-sansPro", sourceSansPro.className)}>
       {/* HERO */}
       <Hero />
 
