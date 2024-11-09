@@ -1,5 +1,7 @@
 import { findCurrentAndAdjacentLessons } from '@/utils/navigation';
 import W3Button from '@/components/w3components/button';
+import { sourceSansPro } from '@/config/fonts';
+import clsx from 'clsx';
 
 interface NavigationProps {
   slug: string;
@@ -10,7 +12,7 @@ export default function Navigation({ slug, technology }: NavigationProps) {
   const { previous, next } = findCurrentAndAdjacentLessons(slug, technology);
 
   return (
-    <div className='flex gap-4 my-4 justify-between'>
+    <div className={clsx("flex gap-4 my-4 justify-between", sourceSansPro.className)}>
       {previous ? (
         <W3Button 
           className='py-2 text-[18px]  px-[19px] !rounded-md'

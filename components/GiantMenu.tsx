@@ -6,6 +6,8 @@ import { X } from "lucide-react"
 import Link from "next/link"
 import { menuData } from '@/data/nav'
 import ServicesMenu from './Services.card'
+import { sourceSansPro } from '@/config/fonts'
+import clsx from 'clsx'
 
 interface GiantMenuProps {
   menuType: 'Darsliklar' | 'Mashqlar' | 'Sertifikatlar' | 'Xizmatlar';
@@ -28,7 +30,7 @@ const GiantMenu: React.FC<GiantMenuProps> = ({ menuType, isOpen, onClose }) => {
   })).filter(category => category.links.length > 0)
 
   return (
-      <section className="relative block w-full h-screen">
+      <section className={clsx("relative block w-full h-screen", sourceSansPro.className)}  >
         <div className="relative block w-full h-full">
           <nav className='block relative w-full top-0 h-full overflow-y-scroll bg-gray-3 px-5 pt-[35px] pb-12'>
             {/* X CLOSE */}

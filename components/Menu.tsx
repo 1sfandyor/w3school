@@ -7,6 +7,8 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import MenuInner from './MenuInner'
 import ServicesMenu from './Services.card'
 import Link from 'next/link'
+import { sourceSansPro } from '@/config/fonts';
+import clsx from 'clsx';
 
 interface MenuProps{
   setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,7 +24,7 @@ const Menu = ({setOpenMenu, activeMenu, setActiveMenu}: MenuProps) => {
   }
   
   return (
-    <nav className='fixed w-full flex-col overflow-auto overflow-y-scroll tracking-[0] cursor-default bg-gray-3 text-white-2 border-t-[none] top-14 bottom-0 z-50'>
+    <nav className={clsx("fixed w-full flex-col overflow-auto overflow-y-scroll tracking-[0] cursor-default bg-gray-3 text-white-2 border-t-[none] top-14 bottom-0 z-50", sourceSansPro.className)}>
       <div className='relative w-full h-full pt-[84px]'>
 
           <ul className='w-full'>

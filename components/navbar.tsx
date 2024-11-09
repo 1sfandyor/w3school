@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import Menu from "./Menu";
 import {useMediaQuery} from 'usehooks-ts';
 import HeaderStacks from "./HeaderStacks";
+import { sourceSansPro } from "@/config/fonts";
+import clsx from "clsx";
 
 const MainNavbar = () => {
   const isMobile = useMediaQuery("(min-width: 689px)");
@@ -31,7 +33,7 @@ const MainNavbar = () => {
 
   return (
       <>
-      <header className="flex flex-col fixed w-full top-0 z-50 text-white-2">
+      <header className={clsx("flex flex-col fixed w-full top-0 z-50 text-white-2", sourceSansPro.className)}>
         <nav className="w-full flex items-center relative bg-darkGreen-1 justify-between z-50">
           <div className="flex">
             <Link className="flex items-center justify-center py-2 px-4 shrink-0"
