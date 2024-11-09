@@ -17,7 +17,7 @@ export const CodeSnippet2 = ({title, children, syntax, href}: CodeSnippetProps) 
       {
         href && (
           <Link className={clsx(
-            `flex w-fit py-1.5 px-[18px] mb-4 text-[17px] rounded-[5px] text-white-2 bg-green-1 px-4`,
+            `flex w-fit py-1.5 px-[18px] mb-4 text-[17px] rounded-[5px] text-white-2 bg-green-1`,
             sourceSansPro.className
           )} 
           href={href as string}>

@@ -8,6 +8,7 @@ import { menuData } from '@/data/nav'
 import ServicesMenu from './Services.card'
 import { sourceSansPro } from '@/config/fonts'
 import clsx from 'clsx'
+import Masonry from 'react-masonry-css';
 
 interface GiantMenuProps {
   menuType: 'Darsliklar' | 'Mashqlar' | 'Sertifikatlar' | 'Xizmatlar';
@@ -41,7 +42,7 @@ const GiantMenu: React.FC<GiantMenuProps> = ({ menuType, isOpen, onClose }) => {
             </div>
               
             {/* CONTAIN CENTER */}
-            <div className='lt:mx-auto lt:px-10 smd:px-[33px] nlp:max-w-[1107px] mlp:max-w-[1010px] mb-[25px]'>
+            <div className='lt:mx-auto lt:px-10 smd:px-[33px] nlp:max-w-[1200px] mb-[25px]'>
               <div className='mx-auto'>
                 {/* TITLE & SEARCH INPUT */}
                 <div className='flex flex-col smd:flex-row smd:mb-9 smd:items-center'>
@@ -58,25 +59,24 @@ const GiantMenu: React.FC<GiantMenuProps> = ({ menuType, isOpen, onClose }) => {
                   />
                 </div>
               </div>
-              
 
-              {
-                menuType !== 'Xizmatlar' ? (
-                  <div className="grid slp:grid-cols-3">
+              {/* Masonry Layout */}
+              <Masonry
+                breakpointCols={{ default: 3, 1100: 2, 700: 1 }}
+                className="my-masonry-grid"
+                columnClassName="my-masonry-grid_column"
+              >
                 {filteredItems?.map((category, index) => (
-                  <div key={index}>
+                  <div key={index} className="mb-10">
                     <h3 className="text-2xl font-semibold mb-2 text-yellow-1">{category.name}</h3>
                     <ul>
                       {category.links.map((link, linkIndex) => (
-                        <li key={linkIndex} className="flex items-center ">
-
-                          <Link className="text-white-2  px-1.5 rounded-[3px] hover:text-gray-3 group hover:bg-gray-6 font-medium text-lg" href={link.url}>
-                            {
-                              menuType === 'Darsliklar' && (
-                                <span className="text-[15px] text-gray-2 group-hover:text-gray-3 font-normal">Learn </span>
-                              )
-                            } 
+                        <li key={linkIndex} className="flex items-center text-nowrap">
+                          <Link className="text-white-2 px-1.5 rounded-[3px] hover:text-gray-3 group hover:bg-gray-6 font-medium text-lg" href={link.url}>
                             {link.text}
+                            {menuType === 'Darsliklar' && (
+                              <span className="text-[15px] text-gray-2 group-hover:text-gray-3 font-normal"> ni o&apos;rganish</span>
+                            )}
                           </Link>
 
                           {link.subLinks && link.subLinks.length > 0 && (
@@ -93,24 +93,22 @@ const GiantMenu: React.FC<GiantMenuProps> = ({ menuType, isOpen, onClose }) => {
                     </ul>
                     {menuType === 'Mashqlar' && category.name === 'Data Analytics' && (
                       <div className='inline-flex flex-col'>
-                        <Link className="border border-gray-2 bg-gray-7 text-white-2 px-4 py-2 rounded-lg mt-[35px] mb-4" href={'/exercises'}>What is Exercises ?</Link>
-                        <Link className="border border-gray-2 bg-gray-7 text-white-2 px-4 py-2 rounded-lg" href={'/quiztest'}>What is Quz ?</Link>
+                        <Link className="border border-gray-2 bg-gray-7 text-white-2 px-4 py-2 rounded-lg mt-[35px] mb-4" href={'/exercises'}>What is Exercises?</Link>
+                        <Link className="border border-gray-2 bg-gray-7 text-white-2 px-4 py-2 rounded-lg" href={'/quiztest'}>What is Quiz?</Link>
                       </div>
                     )}
                   </div>
-                  ))}
-                </div>
-              ) : (
+                ))}
+              </Masonry>
+
+              {menuType === 'Xizmatlar' && (
                 <div className='flex flex-col gap-4'>
                   <p className='text-white-2 text-[17px]'>
-                    W3Schools offers a wide range of services and products for beginners and professionals,
-                    helping millions of people everyday to learn and master new skills.
+                  W3Schools yangi boshlanuvchilar va professionallar uchun har kuni millionlab odamlarga yangi ko'nikmalarni o'rganish va o'zlashtirishda yordam beradigan keng turdagi xizmatlar va mahsulotlarni taklif etadi.
                   </p>
                   <ServicesMenu />
                 </div>
-              )
-              }
-
+              )}
             </div>
           </nav>  
         </div> 
@@ -118,4 +116,4 @@ const GiantMenu: React.FC<GiantMenuProps> = ({ menuType, isOpen, onClose }) => {
   );
 };
 
-export default GiantMenu
+export default GiantMenu;

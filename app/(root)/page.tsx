@@ -17,10 +17,12 @@ import SertifiedCareerSection from "@/components/sections/SertifiedCareerSection
 import HowToSection from "@/components/sections/HowToSection";
 import clsx from "clsx";
 import { sourceSansPro } from "@/config/fonts";
+import UnsplashGrid from "@/components/test";
 
 export default function Home() {
   return (
     <section className={clsx("flex flex-col items-start w-full h-full font-sourceSansPro", sourceSansPro.className)}>
+
       {/* HERO */}
       <Hero />
 

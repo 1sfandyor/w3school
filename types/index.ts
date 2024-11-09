@@ -10,9 +10,9 @@ export type MenuItem = {
   info?: string
   items?: {
     name: string
-    links: { text: string; url: string, sub?: string, subLinks?: { text?: string; url?: string }[] }[]
+    links: { text: string; url: string, sub?: string | React.ReactNode, subLinks?: { text?: string; url?: string }[] }[]
   }[]
-  links?: { text: string; url: string, sub?: string }[]
+  links?: { text: string; url: string, sub?: string | React.ReactNode }[]
 }
 
 // TECH STACKS  

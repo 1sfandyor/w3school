@@ -37,13 +37,13 @@ const Menu = ({setOpenMenu, activeMenu, setActiveMenu}: MenuProps) => {
                 }
 
                 return (
-                  <li key={item.id} className={`${(item.title === "Maydon" || item.title === "Sertifikat Olish" || item.title === "Plus" || item.title === "Academy") ? `py-[20px] relative px-[30px] border-b border-gray-4 text-[21px] ${state == item.id ? `bg-white-2 text-black-1 no-underline` : ''}` : ''}`}>
+                  <li key={item.id} className={`${(item.title === "Space" || item.title === "Sertifikat olish" || item.title === "Plus" || item.title === "Academy") ? `py-[20px] relative px-[30px] border-b border-gray-4 text-[21px] ${state == item.id ? `bg-white-2 text-black-1 no-underline` : ''}` : ''}`}>
                     {
-                      item.title === 'Spaces' 
+                      item.title === 'Space' 
                         ? (
                             <Link className={`text-[21px] flex w-full justify-between `} href='/spaces' target='_blank'>
                               {item.title}
-                              <FontAwesomeIcon icon={item.icon as IconProp}/>
+                              {item.icon ? <FontAwesomeIcon icon={item.icon as IconProp}/> : null}
                             </Link>
                           ) 
                         : 
@@ -51,7 +51,7 @@ const Menu = ({setOpenMenu, activeMenu, setActiveMenu}: MenuProps) => {
                         ? (
                             <Link className={`text-[21px] flex w-full justify-between `} href='/certification' target='_blank'>
                               {item.title}
-                              <FontAwesomeIcon icon={item.icon as IconProp}/>
+                              {item.icon ? <FontAwesomeIcon icon={item.icon as IconProp}/> : null}
                             </Link>
                           )
                         : 
@@ -59,7 +59,7 @@ const Menu = ({setOpenMenu, activeMenu, setActiveMenu}: MenuProps) => {
                         ? (
                             <Link className={`text-[21px] flex w-full justify-between `} href='/plus' target='_blank'>
                               {item.title}
-                              <FontAwesomeIcon icon={item.icon as IconProp}/>
+                              {item.icon ? <FontAwesomeIcon icon={item.icon as IconProp}/> : null}
                             </Link>
                           ) 
                         : 
@@ -67,16 +67,16 @@ const Menu = ({setOpenMenu, activeMenu, setActiveMenu}: MenuProps) => {
                         ? (
                           <Link className={`text-[21px] flex w-full justify-between `} href='/academy' target='_blank'>
                             {item.title}
-                            <FontAwesomeIcon icon={item.icon as IconProp}/>
+                            {item.icon ? <FontAwesomeIcon icon={item.icon as IconProp}/> : null}
                           </Link>
                         ) 
                         : (
                           <Accordion collapsible type="single">
                             <AccordionItem value={`item-1 `}>
-                              <AccordionTrigger className={`py-[20px] relative px-[30px] border-b border-gray-4 text-[21px] ${state == item.id && `bg-white-2 text-black-1 no-underline`}`}
+                              <AccordionTrigger className={`py-[20px] relative px-[30px] text-[21px] ${state == item.id && `bg-white-2 text-black-1 no-underline`}`}
                               onClick={() => handleClick(item.id as string, item.title)}>
                                 {item.title}
-                                <FontAwesomeIcon icon={item.icon as IconProp}/> 
+                                {item.icon ? <FontAwesomeIcon icon={item.icon as IconProp}/> : null}
                               </AccordionTrigger>
                               <AccordionContent className='px-30'>
                                 {
@@ -87,10 +87,10 @@ const Menu = ({setOpenMenu, activeMenu, setActiveMenu}: MenuProps) => {
                                   : (
                                       <>
                                         <div className="px-[38px] pt-[35px]">
-                                          <input className="w-full -order-1 mb-9 bg-brown-1 text-white-2 !px-5 !py-2.5placeholder:text-white-2 rounded-full border border-yellow-1/20" placeholder="Filter..." type="text"/>
+                                          <input className="w-full -order-1 mb-9 bg-brown-1 text-white-2 !px-5 !py-2.5
+                                          placeholder:text-white-2 rounded-full border border-yellow-1/20" placeholder="Filter..." type="text"/>
                                           <p className='text-white-2 text-[17px]'>
-                                            W3Schools offers a wide range of services and products for beginners and professionals,
-                                            helping millions of people everyday to learn and master new skills.
+                                            W3Schools yangi boshlovchilar va professionallar uchun har kuni millionlab odamlarga yangi ko'nikmalarni o'rganish va o'zlashtirishda yordam beradigan keng turdagi xizmatlar va mahsulotlarni taklif etadi.
                                           </p>
                                         </div>
                                         {/* SERVICES MENU */}
@@ -114,4 +114,4 @@ const Menu = ({setOpenMenu, activeMenu, setActiveMenu}: MenuProps) => {
   )
 }
 
-export default Menu
+export default Menu;

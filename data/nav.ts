@@ -1,3 +1,4 @@
+import React from 'react';
 import { v4 as id } from "uuid";
 
 import { faCaretDown, faCartShopping, faCode, faGraduationCap, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
@@ -37,7 +38,7 @@ export const menuItems = [
   { id: id(), title: "Mashqlar", icon: faCaretDown},
   { id: id(), title: "Sertifikatlar", icon: faCaretDown},
   { id: id(), title: "Xizmatlar", icon: faCaretDown},
-  { id: id(), title: "Maydon", icon: faCode},
+  { id: id(), title: "Space", icon: faCode},
   { id: id(), title: "Sertifikat olish", icon: faCartShopping},
   { id: id(), title: "Plus", icon: faWandMagicSparkles },
   { id: id(), title: "Akademiya" },
@@ -56,7 +57,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/html"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/tags"
             }
             ]
@@ -67,7 +68,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/css"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/cssref"
             }
             ]
@@ -92,7 +93,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/w3css"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/w3css/w3css_references"
             }
             ]
@@ -103,29 +104,29 @@ export const menuData: Record<string, MenuItem> = {
               url: "/sass"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/sass/sass_functions_string"
             }
             ]
           },
-          { text: "Colors", url: "/colors", subLinks: [
+          { text: "Ranglar", url: "/colors", subLinks: [
             {
               text: "Darsliklar",
               url: "/colors"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/colors/colors_fs595"
             }
             ]
           },
-          { text: "Icons", url: "/icons", subLinks: [
+          { text: "Ikonkalar", url: "/icons", subLinks: [
             {
               text: "Darsliklar",
               url: "/icons"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/icons/icons_reference"
             }
             ]
@@ -136,7 +137,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/graphics/svg-intro"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/graphics/svg_reference"
             }
             ]
@@ -147,12 +148,12 @@ export const menuData: Record<string, MenuItem> = {
               url: "/graphics/canvas-intro"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/graphics/canvas_reference"
             }
             ]
           },
-          { text: "Graphics", url: "/graphics", subLinks: [
+          { text: "Grafika", url: "/graphics", subLinks: [
             {
               text: "Darsliklar",
               url: "/graphics"
@@ -161,12 +162,12 @@ export const menuData: Record<string, MenuItem> = {
           },
           { text: "Charset Sets", url: "/charsets", subLinks: [
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/charsets/charsets"
             }
             ]
           },
-          { text: "How To", url: "/howto", subLinks: [
+          { text: "Qanday qilish", url: "/howto", subLinks: [
             {
               text: "Darsliklar",
               url: "/howto"
@@ -184,7 +185,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/js"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/js/js_ref"
             }
             ]
@@ -202,7 +203,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/jquery"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/jquery/jquery_ref_overview"
             }
             ]
@@ -213,7 +214,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/vue"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/vue/vue-ref-builtin-attributes"
             }
             ]
@@ -224,7 +225,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/angular"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/angular/angular_ref_directives"
             }
             ]
@@ -235,7 +236,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/js/js_json_intro"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/jsref/jsref_obj_json"
             }
             ]
@@ -253,7 +254,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/appml"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/appml/appml_reference"
             }
             ]
@@ -264,7 +265,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/w3js"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/w3js/w3js_reference"
             }
             ]
@@ -280,7 +281,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/python"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/python/python_reference"
             }
             ]
@@ -291,7 +292,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/sql"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/sql/sql_ref_keywords"
             }
             ]
@@ -302,7 +303,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/mysql"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/mysql/mysql_datatypes"
             }
             ]
@@ -313,7 +314,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/php"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/php/php_ref_overview"
             }
             ]
@@ -324,7 +325,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/java"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/java/java_ref_reference"
             }
             ]
@@ -335,7 +336,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/c"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/c/c_ref_reference"
             }
             ]
@@ -346,7 +347,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/cpp"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/cpp/cpp_ref_reference"
             }
             ]
@@ -385,7 +386,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/django"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/django/django_ref_template_tags"
             }
             ]
@@ -410,7 +411,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/asp"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/asp/asp_ref_vbscript_functions"
             }
             ]
@@ -421,7 +422,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/nodejs"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/nodejs/nodejs_ref_modules"
             }
             ]
@@ -460,7 +461,7 @@ export const menuData: Record<string, MenuItem> = {
               url: "/xml"
             },
             {
-              text: "Reference",
+              text: "Ma'lumotnoma",
               url: "/xml/xml_dom_nodetypes"
             }
             ]
@@ -589,7 +590,7 @@ export const menuData: Record<string, MenuItem> = {
           { text: "Veb Dasturlash", url: "/whatis" },
           { text: "Kod Muharrir", url: "https://www.w3schools.com/tryit/default.asp" },
           { text: "Yozish tezligini tekshiring", url: "/typingspeed" },
-          { text: "Kod o&apos;yini o&apos;ynash", url: "/code-game" },
+          { text: "Kod o'yini o'ynash", url: "/code-game" },
           { text: "Kiber xavfsizlik", url: "/cyber-security" },
           { text: "Accessibility", url: "/accessibility" },
           { text: "Bizning Yangiliklar", url: "https://campus.w3schools.com/pages/newsletter" },
@@ -1377,30 +1378,30 @@ export const menuData: Record<string, MenuItem> = {
 
   Xizmatlar: {
     title: "Bizning Xizmatlar",
-    info: "W3Schools offers a wide range of services and products for beginners and professionals, helping millions of people everyday to learn and master new skills.",
+    info: "W3Schools yangi boshlanuvchilar va professionallar uchun har kuni millionlab odamlarga yangi ko'nikmalarni o'rganish va o'zlashtirishda yordam beradigan keng turdagi xizmatlar va mahsulotlarni taklif etadi.",
     links: [
       { 
         text: "Bepul Darsliklar", 
         url: "/tutorials", 
-        sub: "Enjoy our free tutorials like millions of other internet users since 1999"
+        sub: "1999 yildan beri millionlab foydalanuvchilarimiz kabi bepul darslarimizdan bahramand bo'ling"
       },
       { 
         text: "References", 
         url: "/references",
-        sub: "Explore our selection of references covering all popular coding languages"
+        sub: "Barcha mashhur dasturlash tillari haqida taqdim qilgan ma'lumotnomalarimizni o'rganing"
       },
       { 
         text: "Sayt Yaratish",
         url: "/exercises",
-        sub: `Sayt yarating W3Schools Maydoni bilan - tayyorlash talab qilinmaydi`
+        sub: `W3Schools Space bilan o'zingizning shaxsiy saytingizni yarating - hech qanday sozlashlar talab qilinmaydi`
       },
       { 
         text: "Mashqlar", 
         url: "/certificates",
-        sub: "Sizning bilimlarini tekshirish"
+        sub: "Turli mashqlar orqali bilimlaringizni tekshiring"
       },
-      { text: "Savollar", 
-        sub: "Bilimingizni tekshirish", 
+      { text: "Viktorinalar", 
+        sub: "Bir nechta tanlovli savollar orqali bilimingizni tekshiring", 
         url: "/quizzes" 
       },
       { text: "Sertifikat Olish", 
@@ -1408,88 +1409,89 @@ export const menuData: Record<string, MenuItem> = {
         url: "/certificates" 
       },
       { text: "Kirish / Avtorizatsiya", 
-        sub: "W3Schools hisobingizni yaratish orqali o'rganish jarayoningizni kuzatish orqali tajribangizni yaxshilang", 
+        sub: "W3Schools hisobingizni yaratish orqali o'rganish jarayoningizni kuzatib tajribangizni yaxshilang", 
         url: "/login" 
       },
       { text: "Pathfinder & Mening Texnologiyalarim", 
-        sub: "O'rganish jarayoni va muvofaqiyatlarini izlab ko'rish", 
+        sub: "O'rganish jarayoni va muvofaqiyatlarini kuzatib borish", 
         url: "/pathfinder" 
       },
       { text: "Upgrade", 
-        sub: "PLUS foydalanuvchisi bo'ling va kuchli xususiyatlarini yuklab oling", 
-        url: "/upgrade" 
+        sub: "PLUS foydalanuvchisi bo'ling va ajoyib afzalliklarga ega bo'ling", 
+        url: "/plus" 
       },
-      { text: "Where To Start", 
-        sub: "Qayerdan boshlashga ishonch bermasligizni bildirish", 
+      { text: "Qaydan boshlash kerak", 
+        sub: "Qayerdan boshlashni bilmayapsizmi ? Bizning yo'l ko'rsatuvchimizdan foydalaning", 
         url: "/start" 
       },
-      { text: "Code Editor (Try it)", 
-        sub: "Kodni tahrirlang va brauzerda natijani ko'rish", 
+      { text: "Kod muharriri (Sinab ko'ring)", 
+        sub: "Kodni tahrirlang va brauzerda natijani ko'ring", 
         url: "/code-editor" 
       },
-      { text: "Videos", 
-        sub: "HTML asoslarini o'rganish, qiziqarli va qiziqarli video dars", 
+      { text: "Videolar", 
+        sub: "HTML asoslarini, ajoyib va qiziqarli video darslar orqali o'rganing", 
         url: "/videos" 
       },
-      { text: "Templates", 
-        sub: "Bepul responsive sayt tayyorlash shablonlari", 
+      { text: "Shablonlar", 
+        sub: "Biz siz foydalanishingiz uchun moslashuvchan veb-sayt shablonlari to'plamini yaratdik - bu bepul!", 
         url: "/templates" 
       },
       { text: "Web Hosting", 
-        sub: "Sayt yarating W3Schools Maydoni bilan", 
+        sub: "Shaxsiy veb-saytingizni hostingga joylashtiring va uni W3Schools Spaces bilan ulashing", 
         url: "/web-hosting" 
       },
-      { text: "Create a Server", 
-        sub: "Create your own server with various technologies", 
+      { text: "Server yaratish", 
+        sub: "Turli texnologiyalar bilan o'z serveringizni yarating", 
         url: "/create-server" 
       },
-      { text: "How To's", 
-        sub: "Large collection of code snippets for HTML, CSS, and JavaScript", 
+      { text: "Qanday qilinadi", 
+        sub: "HTML, CSS va JavaScript uchun ko'plab kod to'plamlarini o'rganing", 
         url: "/how-tos" 
       },
       { text: "CSS Framework", 
-        sub: "Build fast and responsive sites using our W3.CSS framework", 
+        sub: "W3.CSS tizimimizdan foydalanib tez va moslashuvchan saytlar yarating", 
         url: "/css-framework" 
       },
-      { text: "Browser Statistics", 
-        sub: "Read long term trends of browser usage", 
+      { text: "Brauzer statistikasi", 
+        sub: "Brauzerdan foydalanish haqidagi uzluksiz trendlarni o'rganing", 
         url: "/browser-statistics" 
       },
-      { text: "Typing Speed", 
-        sub: "Test your typing speed", 
+      { text: "Yozish tezligi", 
+        sub: "Yozish tezligingizni tekshiring", 
         url: "/typing-speed" 
       },
-      { text: "AWS Training", 
-        sub: "Learn Amazon Web Services", 
+      { text: "AWS O'rgatish", 
+        sub: "Amazon Web Servicesni o'rganing", 
         url: "/aws-training" 
       },
-      { text: "Color Picker", 
-        sub: "Find different RGB, HEX, and HSL colors", 
+      { text: "Rang tanlash", 
+        sub: "Turli RGB, HEX va HSL ranglarini toping", 
         url: "/color-picker" 
       },
-      { text: "Code Game", 
-        sub: "Help the lynx collect pine cones", 
+      { text: "Kod o'yini", 
+        sub: "Lynxning konuslarini to'plashga yordam bering", 
         url: "/code-game" 
       },
-      { text: "Set Goal", 
-        sub: "Get personalized learning journey based on your skills", 
+      { text: "Maqsad belgilash", 
+        sub: "Mavjud ko'nikmalaringiz va maqsadlaringiz asosida o'zingizga mos ta'lim sayohatiga ega bo'ling", 
         url: "/set-goal" 
       },
-      { text: "Newsletter", 
-        sub: "Join our newsletter for exclusive content", 
+      { text: "Yangiliklar", 
+        sub: "Bizning yangiliklarimizga xush kelibsiz", 
         url: "/newsletter" 
       },
-      { text: "For Teachers", 
-        sub: "Contact us for W3Schools Academy for educational institutions", 
+      { text: "O'qituvchilar uchun", 
+        sub: "Ta'lim muassasalari uchun W3Schools Academy haqida biz bilan bog'laning", 
         url: "/for-teachers" 
       },
-      { text: "For Businesses", 
-        sub: "Contact us for W3Schools Academy for your organization", 
+      { text: "Tashkilotlar uchun", 
+        sub: "Tashkilotingiz uchun W3Schools Academy haqida biz bilan bog'laning", 
         url: "/for-businesses" 
       },
-      { text: "Contact Us", 
-        sub: "For sales: sales@w3schools.com, For errors: help@w3schools.com", 
-        url: "/contact" }
+      { text: "Biz bilan bog'lanish", 
+        sub: `Savolingiz bo'lsa: sales@w3schools.com, Xatoliklar bo'lsa: help@w3schools.com`,
+        url: "/contact" 
+      }
     ],
   },
 };

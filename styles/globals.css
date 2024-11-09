@@ -67,3 +67,14 @@
     @apply bg-background text-foreground !leading-normal;
   }
 }
+
+.my-masonry-grid {
+  display: flex;
+  margin-left: -30px; /* Ustunlar orasidagi bo'shliq */
+  width: auto;
+}
+
+.my-masonry-grid_column {
+  padding-left: 30px; /* Ustunlar orasidagi bo'shliq */
+  background-clip: padding-box;
+}
