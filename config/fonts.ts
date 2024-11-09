@@ -62,9 +62,9 @@ export const sourceSansPro = localFont({
   src: [
     { path: '../public/fonts/SourceSansPro-Black.woff2', weight: '900' },
     { path: '../public/fonts/SourceSansPro-Bold.woff2', weight: '700' },
+    { path: '../public/fonts/SourceSansPro-SemiBold.woff2', weight: '600' },
     { path: '../public/fonts/SourceSansPro-Regular.woff2', weight: '400' },
     { path: '../public/fonts/SourceSansPro-Light.woff2', weight: '300' },
-    { path: '../public/fonts/SourceSansPro-SemiBold.woff2', weight: '600' },
   ],
   style: 'normal',
   variable: '--font-source-sans-pro',
