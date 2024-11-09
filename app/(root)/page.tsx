@@ -17,7 +17,6 @@ import SertifiedCareerSection from "@/components/sections/SertifiedCareerSection
 import HowToSection from "@/components/sections/HowToSection";
 import clsx from "clsx";
 import { sourceSansPro } from "@/config/fonts";
-import UnsplashGrid from "@/components/test";
 
 export default function Home() {
   return (

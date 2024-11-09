@@ -90,7 +90,7 @@ const Menu = ({setOpenMenu, activeMenu, setActiveMenu}: MenuProps) => {
                                           <input className="w-full -order-1 mb-9 bg-brown-1 text-white-2 !px-5 !py-2.5
                                           placeholder:text-white-2 rounded-full border border-yellow-1/20" placeholder="Filter..." type="text"/>
                                           <p className='text-white-2 text-[17px]'>
-                                            W3Schools yangi boshlovchilar va professionallar uchun har kuni millionlab odamlarga yangi ko'nikmalarni o'rganish va o'zlashtirishda yordam beradigan keng turdagi xizmatlar va mahsulotlarni taklif etadi.
+                                            W3Schools yangi boshlovchilar va professionallar uchun har kuni millionlab odamlarga yangi ko&apos;nikmalarni o&apos;rganish va o&apos;zlashtirishda yordam beradigan keng turdagi xizmatlar va mahsulotlarni taklif etadi.
                                           </p>
                                         </div>
                                         {/* SERVICES MENU */}

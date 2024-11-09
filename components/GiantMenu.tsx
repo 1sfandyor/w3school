@@ -93,8 +93,8 @@ const GiantMenu: React.FC<GiantMenuProps> = ({ menuType, isOpen, onClose }) => {
                     </ul>
                     {menuType === 'Mashqlar' && category.name === 'Data Analytics' && (
                       <div className='inline-flex flex-col'>
-                        <Link className="border border-gray-2 bg-gray-7 text-white-2 px-4 py-2 rounded-lg mt-[35px] mb-4" href={'/exercises'}>What is Exercises?</Link>
-                        <Link className="border border-gray-2 bg-gray-7 text-white-2 px-4 py-2 rounded-lg" href={'/quiztest'}>What is Quiz?</Link>
+                        <Link className="border border-gray-2 bg-gray-7 text-white-2 px-4 py-2 rounded-lg mt-[35px] mb-4" href={'/exercises'}>Mashqlar nima ?</Link>
+                        <Link className="border border-gray-2 bg-gray-7 text-white-2 px-4 py-2 rounded-lg" href={'/quiztest'}>Viktorina nima ?</Link>
                       </div>
                     )}
                   </div>
@@ -104,7 +104,7 @@ const GiantMenu: React.FC<GiantMenuProps> = ({ menuType, isOpen, onClose }) => {
               {menuType === 'Xizmatlar' && (
                 <div className='flex flex-col gap-4'>
                   <p className='text-white-2 text-[17px]'>
-                  W3Schools yangi boshlanuvchilar va professionallar uchun har kuni millionlab odamlarga yangi ko'nikmalarni o'rganish va o'zlashtirishda yordam beradigan keng turdagi xizmatlar va mahsulotlarni taklif etadi.
+                  W3Schools yangi boshlanuvchilar va professionallar uchun har kuni millionlab odamlarga yangi ko&apos;nikmalarni o&apos;rganish va o&apos;zlashtirishda yordam beradigan keng turdagi xizmatlar va mahsulotlarni taklif etadi.
                   </p>
                   <ServicesMenu />
                 </div>
