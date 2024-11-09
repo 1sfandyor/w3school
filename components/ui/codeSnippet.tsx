@@ -27,7 +27,7 @@ export const CodeSnippet = ({title, children, className, syntax, buttonBg, butto
           {children as string}
         </SyntaxHighlighter>
       )}
-      <Link className={`w-[200px] py-2 text-[18px] rounded-full text-white-2 h-10 ${btnClassNmae}`} 
+      <Link className={`w-[200px] py-2 text-[18px] rounded-full text-white-2 h-10 px-4 ${btnClassNmae}`} 
       href={href as string} style={{ backgroundColor: buttonBg }}>{buttonText}</Link>
     </div>
   );
