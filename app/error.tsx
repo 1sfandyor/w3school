@@ -6,26 +6,30 @@ export default function Error({
   error,
   reset,
 }: {
-  error: Error;
+  error: Error & { digest?: string };
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service
-    /* eslint-disable no-console */
-    console.error(error);
+    // Xatoni log qilish
+    console.error('Sahifa xatosi:', error);
   }, [error]);
 
   return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
-      >
-        Try again
-      </button>
+    <div className="flex min-h-screen items-center justify-center bg-gray-50">
+      <div className="text-center">
+        <h2 className="text-2xl font-bold text-gray-900">
+          Kutilmagan xatolik yuz berdi
+        </h2>
+        <p className="mt-4 text-lg text-gray-600">
+          Sahifani qayta yuklashga urinib ko'ring
+        </p>
+        <button
+          onClick={() => reset()}
+          className="mt-8 rounded-lg bg-primary px-6 py-3 text-white transition-all hover:bg-primary/90"
+        >
+          Qayta urinish
+        </button>
+      </div>
     </div>
   );
 }

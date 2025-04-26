@@ -7,7 +7,8 @@ CREATE TABLE profiles (
   avatar_url TEXT,
   role TEXT DEFAULT 'user' CHECK (role IN ('user', 'admin', 'editor')),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('UTC', NOW()),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('UTC', NOW())
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('UTC', NOW()),
+  avatar_media_id UUID REFERENCES media_files(id) ON DELETE SET NULL
 );
 
 -- Kategoriyalar jadvali
@@ -96,6 +97,34 @@ CREATE TABLE activities (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('UTC', NOW())
 );
 
+-- Media fayllar jadvali
+CREATE TABLE IF NOT EXISTS media_files (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  file_name TEXT NOT NULL,
+  original_name TEXT NOT NULL,
+  file_size INTEGER NOT NULL,
+  mime_type TEXT NOT NULL,
+  bucket_name TEXT NOT NULL,
+  file_path TEXT NOT NULL,
+  public_url TEXT NOT NULL,
+  uploaded_by UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+  metadata JSONB DEFAULT '{}'::jsonb,
+  status TEXT DEFAULT 'active' CHECK (status IN ('active', 'archived', 'deleted'))
+);
+
+-- Media fayllar va kontentlar o'rtasidagi bog'lanish jadvali
+CREATE TABLE IF NOT EXISTS content_media (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  content_type TEXT NOT NULL CHECK (content_type IN ('page', 'tutorial')),
+  content_id UUID NOT NULL,
+  media_id UUID REFERENCES media_files(id) ON DELETE CASCADE,
+  position INTEGER DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+  UNIQUE (content_type, content_id, media_id)
+);
+
 -- Triggerlar
 -- Profil yaratish uchun trigger
 CREATE OR REPLACE FUNCTION public.handle_new_user()
@@ -121,6 +150,8 @@ ALTER TABLE page_tags ENABLE ROW LEVEL SECURITY;
 ALTER TABLE tutorial_tags ENABLE ROW LEVEL SECURITY;
 ALTER TABLE content_versions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE activities ENABLE ROW LEVEL SECURITY;
+ALTER TABLE media_files ENABLE ROW LEVEL SECURITY;
+ALTER TABLE content_media ENABLE ROW LEVEL SECURITY;
 
 -- Tegishli RLS policy lar
 CREATE POLICY "Public profiles are viewable by everyone."
@@ -144,5 +175,49 @@ CREATE POLICY "Admins/editors can manage categories."
 CREATE POLICY "Categories are viewable by everyone."
   ON categories FOR SELECT
   USING (true);
+
+-- Media fayllarni ko'rish uchun policy
+CREATE POLICY "Media fayllarni hamma ko'ra oladi" ON media_files
+  FOR SELECT USING (status = 'active');
+
+-- Media fayllarni yuklash uchun policy
+CREATE POLICY "Faqat admin media fayl yuklay oladi" ON media_files
+  FOR INSERT WITH CHECK (
+    auth.role() = 'authenticated' AND 
+    EXISTS (
+      SELECT 1 FROM profiles
+      WHERE profiles.id = auth.uid() AND profiles.role = 'admin'
+    )
+  );
+
+-- Media fayllarni o'zgartirish uchun policy
+CREATE POLICY "Faqat admin media faylni o'zgartira oladi" ON media_files
+  FOR UPDATE USING (
+    auth.role() = 'authenticated' AND 
+    EXISTS (
+      SELECT 1 FROM profiles
+      WHERE profiles.id = auth.uid() AND profiles.role = 'admin'
+    )
+  );
+
+-- Media fayllarni o'chirish uchun policy
+CREATE POLICY "Faqat admin media faylni o'chira oladi" ON media_files
+  FOR DELETE USING (
+    auth.role() = 'authenticated' AND 
+    EXISTS (
+      SELECT 1 FROM profiles
+      WHERE profiles.id = auth.uid() AND profiles.role = 'admin'
+    )
+  );
+
+-- Content media bog'lanishlarini boshqarish uchun policy
+CREATE POLICY "Faqat admin content media bog'lanishlarini boshqara oladi" ON content_media
+  USING (
+    auth.role() = 'authenticated' AND 
+    EXISTS (
+      SELECT 1 FROM profiles
+      WHERE profiles.id = auth.uid() AND profiles.role = 'admin'
+    )
+  );
 
 -- Boshqa RLS policy lar... 

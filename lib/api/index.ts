@@ -56,6 +56,7 @@ export async function getRecentActivities(limit = 5) {
       // Unique foydalanuvchi ID larini olish
       const uniqueUserIds = Array.from(new Set(userIds));
       
+      // Foydalanuvchi ma'lumotlarini profiles jadvalidan olish
       const { data: usersData, error: usersError } = await supabase
         .from('profiles')
         .select('id, first_name, last_name')
@@ -63,7 +64,11 @@ export async function getRecentActivities(limit = 5) {
         
       if (usersError) {
         console.error('Foydalanuvchi ma\'lumotlarini olishda xatolik:', usersError);
-      } else if (usersData) {
+        // Foydalanuvchi ma'lumotlarini qo'shmasdan qaytarish
+        return activitiesData;
+      } 
+      
+      if (usersData) {
         // Har bir faoliyatga foydalanuvchi ma'lumotlarini qo'shish
         return activitiesData.map(activity => {
           const user = usersData.find(user => user.id === activity.user_id);

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Editor } from '@tiptap/react';
+import TextAlign from '@tiptap/extension-text-align';
 import styles from './RichTextEditor.module.css';
 import { 
   Bold, 
@@ -24,6 +25,8 @@ import {
   Check
 } from 'lucide-react';
 import Link from '@tiptap/extension-link';
+import { FiBold, FiItalic, FiList, FiImage, FiLink, FiAlignLeft, FiAlignCenter, FiAlignRight } from 'react-icons/fi';
+import MediaUpload from '@/components/media/MediaUpload';
 
 interface ToolbarProps {
   editor: Editor | null;
@@ -32,6 +35,7 @@ interface ToolbarProps {
 export const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
   const [isAddingLink, setIsAddingLink] = useState(false);
   const [linkUrl, setLinkUrl] = useState('');
+  const [showMediaUpload, setShowMediaUpload] = useState(false);
 
   if (!editor) {
     return null;
@@ -45,6 +49,17 @@ export const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
     }
   };
 
+  // Rasm qo'shish
+  const addImage = (url: string) => {
+    editor
+      .chain()
+      .focus()
+      .setImage({ src: url })
+      .run();
+    
+    setShowMediaUpload(false);
+  };
+
   return (
     <div className={styles.toolbar}>
       <div className={styles.toolbarGroup}>
@@ -55,7 +70,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
           className={`${styles.toolbarButton} ${editor.isActive('bold') ? styles.active : ''}`}
           title="Bold"
         >
-          <Bold size={18} />
+          <FiBold className="h-5 w-5" />
         </button>
 
         <button
@@ -65,7 +80,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
           className={`${styles.toolbarButton} ${editor.isActive('italic') ? styles.active : ''}`}
           title="Italic"
         >
-          <Italic size={18} />
+          <FiItalic className="h-5 w-5" />
         </button>
 
         <button
@@ -124,7 +139,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
           className={`${styles.toolbarButton} ${editor.isActive('bulletList') ? styles.active : ''}`}
           title="Bullet List"
         >
-          <List size={18} />
+          <FiList className="h-5 w-5" />
         </button>
 
         <button
@@ -211,9 +226,38 @@ export const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
             className={`${styles.toolbarButton} ${editor.isActive('link') ? styles.active : ''}`}
             title="Link"
           >
-            <LinkIcon size={18} />
+            <FiLink className="h-5 w-5" />
           </button>
         )}
+      </div>
+
+      <div className={styles.toolbarGroup}>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign('left').run()}
+          className={`${styles.toolbarButton} ${editor.isActive({ textAlign: 'left' }) ? styles.active : ''}`}
+          title="Align Left"
+        >
+          <FiAlignLeft className="h-5 w-5" />
+        </button>
+
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign('center').run()}
+          className={`${styles.toolbarButton} ${editor.isActive({ textAlign: 'center' }) ? styles.active : ''}`}
+          title="Align Center"
+        >
+          <FiAlignCenter className="h-5 w-5" />
+        </button>
+
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign('right').run()}
+          className={`${styles.toolbarButton} ${editor.isActive({ textAlign: 'right' }) ? styles.active : ''}`}
+          title="Align Right"
+        >
+          <FiAlignRight className="h-5 w-5" />
+        </button>
       </div>
 
       <div className={styles.toolbarGroup}>
@@ -237,6 +281,43 @@ export const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
           <Redo size={18} />
         </button>
       </div>
+
+      <div className={styles.toolbarGroup}>
+        <button
+          type="button"
+          onClick={() => setShowMediaUpload(true)}
+          className={styles.toolbarButton}
+          title="Add Image"
+        >
+          <FiImage className="h-5 w-5" />
+        </button>
+      </div>
+
+      {/* Media yuklash modali */}
+      {showMediaUpload && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="w-full max-w-lg rounded-lg bg-white p-6">
+            <h3 className="mb-4 text-lg font-semibold">Rasm yuklash</h3>
+            
+            <MediaUpload
+              onUpload={addImage}
+              onError={(error) => console.error(error)}
+              accept={{
+                'image/*': ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
+              }}
+            />
+
+            <div className="mt-4 flex justify-end">
+              <button
+                onClick={() => setShowMediaUpload(false)}
+                className="rounded px-4 py-2 text-gray-600 hover:bg-gray-100"
+              >
+                Bekor qilish
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }; 

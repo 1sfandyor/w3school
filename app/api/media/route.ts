@@ -1,0 +1,163 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
+import { uploadMedia, getMediaFiles, deleteMedia, updateMedia } from '@/lib/api/media';
+
+// Media fayllar ro'yxatini olish
+export async function GET(request: NextRequest) {
+  try {
+    // Auth tekshirish
+    const supabase = createRouteHandlerClient({ cookies });
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session) {
+      return NextResponse.json(
+        { error: "Avtorizatsiyadan o'tilmagan" },
+        { status: 401 }
+      );
+    }
+
+    // Query parametrlarini olish
+    const searchParams = request.nextUrl.searchParams;
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '20');
+    const type = searchParams.get('type') || undefined;
+    const search = searchParams.get('search') || undefined;
+
+    // Media fayllar ro'yxatini olish
+    const { data, count, error } = await getMediaFiles({
+      page,
+      limit,
+      type,
+      search,
+    });
+
+    if (error) throw new Error(error);
+
+    return NextResponse.json({ data, count });
+  } catch (error) {
+    console.error('GET /api/media xatosi:', error);
+    return NextResponse.json(
+      { error: 'Media fayllarni olishda xatolik yuz berdi' },
+      { status: 500 }
+    );
+  }
+}
+
+// Media fayl yuklash
+export async function POST(request: NextRequest) {
+  try {
+    // Auth tekshirish
+    const supabase = createRouteHandlerClient({ cookies });
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session) {
+      return NextResponse.json(
+        { error: "Avtorizatsiyadan o'tilmagan" },
+        { status: 401 }
+      );
+    }
+
+    // Form data ni olish
+    const formData = await request.formData();
+    const file = formData.get('file') as File;
+    const path = formData.get('path') as string || '';
+
+    if (!file) {
+      return NextResponse.json(
+        { error: 'Fayl topilmadi' },
+        { status: 400 }
+      );
+    }
+
+    // Faylni yuklash
+    const { data, error } = await uploadMedia(file, path);
+    if (error) throw new Error(error);
+
+    return NextResponse.json({ data });
+  } catch (error) {
+    console.error('POST /api/media xatosi:', error);
+    return NextResponse.json(
+      { error: 'Media fayl yuklashda xatolik yuz berdi' },
+      { status: 500 }
+    );
+  }
+}
+
+// Media faylni o'chirish
+export async function DELETE(request: NextRequest) {
+  try {
+    // Auth tekshirish
+    const supabase = createRouteHandlerClient({ cookies });
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session) {
+      return NextResponse.json(
+        { error: "Avtorizatsiyadan o'tilmagan" },
+        { status: 401 }
+      );
+    }
+
+    // ID ni olish
+    const searchParams = request.nextUrl.searchParams;
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "ID ko'rsatilmagan" },
+        { status: 400 }
+      );
+    }
+
+    // Faylni o'chirish
+    const { error } = await deleteMedia(id);
+    if (error) throw new Error(error);
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('DELETE /api/media xatosi:', error);
+    return NextResponse.json(
+      { error: "Media faylni o'chirishda xatolik yuz berdi" },
+      { status: 500 }
+    );
+  }
+}
+
+// Media fayl ma'lumotlarini yangilash
+export async function PATCH(request: NextRequest) {
+  try {
+    // Auth tekshirish
+    const supabase = createRouteHandlerClient({ cookies });
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session) {
+      return NextResponse.json(
+        { error: "Avtorizatsiyadan o'tilmagan" },
+        { status: 401 }
+      );
+    }
+
+    // Ma'lumotlarni olish
+    const body = await request.json();
+    const { id, ...updates } = body;
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "ID ko'rsatilmagan" },
+        { status: 400 }
+      );
+    }
+
+    // Ma'lumotlarni yangilash
+    const { data, error } = await updateMedia(id, updates);
+    if (error) throw new Error(error);
+
+    return NextResponse.json({ data });
+  } catch (error) {
+    console.error('PATCH /api/media xatosi:', error);
+    return NextResponse.json(
+      { error: 'Media fayl ma\'lumotlarini yangilashda xatolik yuz berdi' },
+      { status: 500 }
+    );
+  }
+} 
