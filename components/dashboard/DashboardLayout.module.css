@@ -1,0 +1,68 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+}
+
+.mainContent {
+  padding: 1.5rem;
+  background-color: #f9fafb;
+  min-height: calc(100vh - 70px);
+}
+
+/* Yuklanish indikatori */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.loadingSpinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #04AA6D;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* For collapsed sidebar */
+:global(.collapsed) ~ .content {
+  margin-left: 70px;
+}
+
+/* Dark mode */
+:global(.dark) .mainContent {
+  background-color: #0f172a;
+}
+
+:global(.dark) .loadingContainer {
+  background-color: #0f172a;
+  color: #f9fafb;
+}
+
+:global(.dark) .loadingSpinner {
+  border-color: #1e293b;
+  border-top-color: #04AA6D;
+}
+
+/* Media query for responsive layout */
+@media (max-width: 768px) {
+  .content {
+    margin-left: 70px;
+  }
+}

@@ -1,0 +1,123 @@
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #1D2A35;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition: width 0.3s ease;
+  z-index: 50;
+}
+
+.collapsed {
+  width: 70px;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.collapseButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.collapseButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navigation {
+  flex: 1;
+  padding: 1rem 0;
+  overflow-y: auto;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  color: #e2e8f0;
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s;
+  overflow: hidden;
+}
+
+.navLink:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.active {
+  background-color: #059862;
+  color: white;
+}
+
+.active:hover {
+  background-color: #059862;
+}
+
+.icon {
+  font-size: 1.25rem;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.collapsed .icon {
+  margin-right: 0;
+}
+
+.footer {
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: transparent;
+  border: none;
+  color: #e2e8f0;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+  overflow: hidden;
+}
+
+.logoutButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 70px;
+  }
+  
+  .sidebar:not(.collapsed):hover {
+    width: 250px;
+  }
+} 

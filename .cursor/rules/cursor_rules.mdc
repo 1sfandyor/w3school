@@ -6,7 +6,7 @@ alwaysApply: true
 
 - **Required Rule Structure:**
   ```markdown
-  ---
+  ---`
   description: Clear, one-line description of what the rule enforces
   globs: path/to/files/*.ext, other/path/**/*
   alwaysApply: boolean

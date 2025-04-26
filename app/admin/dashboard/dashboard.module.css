@@ -1,0 +1,217 @@
+.container {
+  width: 100%;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+/* Statistika kartochkalari */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.statCard {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.statCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.statIconWrap {
+  background-color: #f0f5ff;
+  border-radius: 8px;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+.statIcon {
+  font-size: 1.5rem;
+  color: #3b82f6;
+}
+
+.statContent {
+  flex: 1;
+}
+
+.statValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0;
+}
+
+/* Bo'lim ajratgichlar */
+.sectionDivider {
+  margin: 2.5rem 0 1.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #444;
+  margin: 0;
+}
+
+/* Tezkor havolalar */
+.quickLinksGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.quickLinkCard {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-left: 4px solid #3b82f6;
+}
+
+.quickLinkCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.quickLinkTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0.5rem 0;
+}
+
+.quickLinkDescription {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Faoliyat tasmasi */
+.activityFeed {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.activityItem {
+  display: flex;
+  padding: 1rem;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.activityItem:last-child {
+  border-bottom: none;
+}
+
+.activityDot {
+  width: 10px;
+  height: 10px;
+  background-color: #3b82f6;
+  border-radius: 50%;
+  margin-top: 0.5rem;
+  margin-right: 1rem;
+}
+
+.activityContent {
+  flex: 1;
+}
+
+.activityTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0.25rem 0;
+}
+
+.activityDescription {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.5;
+}
+
+.activityTime {
+  font-size: 0.75rem;
+  color: #888;
+  display: block;
+}
+
+/* Yuklanish va bo'sh holat ko'rsatkichlari */
+.activityLoading {
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+  font-size: 0.875rem;
+}
+
+.activityEmpty {
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+/* Supabase maʼlumotlari uchun animatsiyalar */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.loadingShimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  height: 1.5rem;
+  width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .statsGrid,
+  .quickLinksGrid {
+    grid-template-columns: 1fr;
+  }
+} 

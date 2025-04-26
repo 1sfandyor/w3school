@@ -1,0 +1,11 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+IMPORTANT REQUIRED:
+1) Faqat kerakli muhim o'zgarishlarni kirit
+2) Topshiriqqa tegishli bo'lmagan o'zgarishlarni kiritma
+3) Har bir faylga o'zgartirish kiritshdan avval qanday o'zgartirish kiritilayotganini va nima uchun kiritilayotgani haqida ma'lumot berib ket
+4) Mavjud faylga o'zgartirish kiritishda mavjud funksiyalarni o'chirib yuborma, faqatgina o'rniga boshqa funksiya yoki funksiyani yangilash kerak bo'lganda funksiyani o'zgartir
+5) so'nggida qilingan ishlar haqida ma'lumot berib ularni berilgan vazifaga muvofiqligini 10 ballik sistemada bahola

@@ -1,0 +1,167 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  height: 70px;
+}
+
+.searchContainer {
+  position: relative;
+  width: 300px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  outline: none;
+  font-size: 0.875rem;
+}
+
+.searchInput:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.iconButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.375rem;
+  border: none;
+  background-color: #f9fafb;
+  color: #4b5563;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.iconButton:hover {
+  background-color: #f3f4f6;
+}
+
+.notificationBadge {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #ef4444;
+  color: white;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.userProfile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #3b82f6;
+  color: white;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.userRole {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Dark mode */
+:global(.dark) .header {
+  background-color: #1e293b;
+  border-bottom: 1px solid #334155;
+  box-shadow: none;
+}
+
+:global(.dark) .searchInput {
+  background-color: #0f172a;
+  border-color: #334155;
+  color: #f8fafc;
+}
+
+:global(.dark) .searchInput:focus {
+  border-color: #3b82f6;
+}
+
+:global(.dark) .iconButton {
+  background-color: #1e293b;
+  color: #e2e8f0;
+}
+
+:global(.dark) .iconButton:hover {
+  background-color: #334155;
+}
+
+:global(.dark) .userName {
+  color: #f1f5f9;
+}
+
+:global(.dark) .userRole {
+  color: #94a3b8;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+  }
+  
+  .searchContainer {
+    width: 200px;
+  }
+  
+  .userInfo {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .searchContainer {
+    display: none;
+  }
+} 

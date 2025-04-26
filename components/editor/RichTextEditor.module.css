@@ -1,0 +1,255 @@
+.editorContainer {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.editor {
+  padding: 1rem;
+  min-height: 300px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.editor:focus-visible {
+  outline: none;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.5rem;
+  background-color: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  gap: 0.25rem;
+}
+
+.toolbarGroup {
+  display: flex;
+  border-right: 1px solid #e2e8f0;
+  padding-right: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.toolbarGroup:last-child {
+  border-right: none;
+}
+
+.toolbarButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  position: relative;
+  color: #4b5563;
+}
+
+.toolbarButton:hover {
+  background-color: #e2e8f0;
+}
+
+.toolbarButton.active {
+  color: #0ea5e9;
+  background-color: #e0f2fe;
+}
+
+.toolbarButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.headingLevel {
+  font-size: 0.6rem;
+  position: absolute;
+  bottom: 2px;
+  right: 3px;
+}
+
+.collaborationInfo {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #f0f9ff;
+  border-top: 1px solid #e2e8f0;
+}
+
+.userIndicator {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: #0ea5e9;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.saveStatus {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.saving {
+  color: #f59e0b;
+}
+
+.saved {
+  color: #10b981;
+}
+
+.linkInput {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.linkInput input {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+/* TipTap editor styles */
+.editor p {
+  margin: 0.5em 0;
+}
+
+.editor h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin: 0.67em 0;
+}
+
+.editor h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0.83em 0;
+}
+
+.editor h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 1em 0;
+}
+
+.editor ul, .editor ol {
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+}
+
+.editor ul {
+  list-style-type: disc;
+}
+
+.editor ol {
+  list-style-type: decimal;
+}
+
+.editor pre {
+  background-color: #f1f5f9;
+  padding: 0.75em;
+  border-radius: 0.25rem;
+  overflow-x: auto;
+  margin: 0.5em 0;
+}
+
+.editor code {
+  background-color: #f1f5f9;
+  padding: 0.1em 0.25em;
+  border-radius: 0.25rem;
+  font-family: monospace;
+}
+
+.editor blockquote {
+  border-left: 4px solid #e2e8f0;
+  padding-left: 1em;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.editor a {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.editor a:hover {
+  color: #2563eb;
+}
+
+.editor hr {
+  border: none;
+  border-top: 2px solid #e2e8f0;
+  margin: 1em 0;
+}
+
+/* Cursor styles */
+.cursor {
+  position: absolute;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.cursorLabel {
+  position: absolute;
+  top: -1.4em;
+  left: -1px;
+  font-size: 0.625rem;
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.25rem;
+  white-space: nowrap;
+  color: white;
+  opacity: 0.8;
+}
+
+.cursorCaret {
+  position: absolute;
+  width: 2px;
+  height: 1.2em;
+}
+
+.userList {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.userAvatar {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .editorContainer {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  
+  .toolbar {
+    background-color: #1e293b;
+    border-color: #334155;
+  }
+  
+  .editor code {
+    background-color: #334155;
+    color: #f8fafc;
+  }
+} 
