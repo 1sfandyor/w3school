@@ -3,7 +3,7 @@ import { STORAGE_CONFIG } from './storage.config';
 import { generateFileName, getErrorMessage, getFileType } from './storage.utils';
 import type { Database } from '@/types/database.types';
 
-// Storage client yaratish
+// Storage client yaratish.
 const createStorageClient = () => {
   const supabase = createClientComponentClient<Database>();
   return supabase.storage;
