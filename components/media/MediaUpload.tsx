@@ -1,7 +1,10 @@
-import { useCallback, useState } from 'react';
+'use client';
+
+import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FiUploadCloud } from 'react-icons/fi';
-import { uploadFile } from '@/lib/supabase/storage.client';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import type { Database } from '@/types/database.types';
 import { STORAGE_CONFIG } from '@/lib/supabase/storage.config';
 import { getErrorMessage } from '@/lib/supabase/storage.utils';
 
@@ -29,6 +32,18 @@ export default function MediaUpload({
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     try {
       setIsUploading(true);
+      
+      // Supabase mijozini yaratish
+      const supabase = createClientComponentClient<Database>();
+      
+      // Sessiyani olish va token olish
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        throw new Error("Avtorizatsiyadan o'tilmagan");
+      }
+      
+      const token = session.access_token;
 
       for (const file of acceptedFiles) {
         // Fayl turini tekshirish
@@ -38,22 +53,37 @@ export default function MediaUpload({
           continue;
         }
 
-        // Faylni yuklash
-        const { url, error: uploadError } = await uploadFile(file, bucket, path);
-        
-        if (uploadError) {
-          onError?.(uploadError);
-          continue;
+        // FormData yaratish
+        const formData = new FormData();
+        formData.append('file', file);
+        if (path) formData.append('path', path);
+
+        // API ga auth token bilan so'rov yuborish
+        const response = await fetch('/api/media', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          body: formData,
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Fayl yuklashda xatolik');
         }
 
-        onUpload?.(url);
+        const { data } = await response.json();
+        if (data?.url) {
+          onUpload?.(data.url);
+        }
       }
-    } catch (error) {
-      onError?.('Fayl yuklashda kutilmagan xatolik yuz berdi');
+    } catch (error: any) {
+      console.error('Fayl yuklashda xatolik:', error);
+      onError?.(error.message || 'Fayl yuklashda kutilmagan xatolik yuz berdi');
     } finally {
       setIsUploading(false);
     }
-  }, [bucket, path, onUpload, onError]);
+  }, [path, onUpload, onError]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -63,8 +93,8 @@ export default function MediaUpload({
   });
 
   return (
-    <div 
-      {...getRootProps()} 
+    <div
+      {...getRootProps()}
       className={`
         relative flex min-h-[200px] cursor-pointer flex-col items-center justify-center 
         rounded-lg border-2 border-dashed p-4 transition-colors

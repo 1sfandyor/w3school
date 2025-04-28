@@ -1,22 +1,42 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { createClient } from '@supabase/supabase-js';
 import { uploadMedia, getMediaFiles, deleteMedia, updateMedia } from '@/lib/api/media';
+
+// Supabase klientini yaratish
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+
+// Supabase client yaratish va sessiyani olish funksiyasi
+async function getAuthorizedClient(request: NextRequest) {
+  const supabase = createClient(supabaseUrl, supabaseAnonKey);
+  
+  // Auth headerlardan tokenni olish
+  const authHeader = request.headers.get('Authorization');
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.replace('Bearer ', '');
+    
+    // Auth sesssiyani o'rnatish
+    await supabase.auth.setSession({
+      access_token: token,
+      refresh_token: '',
+    });
+  }
+  
+  // Sessiyani olish
+  const { data: { session } } = await supabase.auth.getSession();
+  
+  if (!session) {
+    throw new Error("Avtorizatsiyadan o'tilmagan");
+  }
+  
+  return { supabase, session };
+}
 
 // Media fayllar ro'yxatini olish
 export async function GET(request: NextRequest) {
   try {
-    // Auth tekshirish - Next.js 13 va Supabase uchun to'g'ri sintaksis
-    const supabase = createRouteHandlerClient({ cookies });
-    
-    const { data: { session } } = await supabase.auth.getSession();
-    
-    if (!session) {
-      return NextResponse.json(
-        { error: "Avtorizatsiyadan o'tilmagan" },
-        { status: 401 }
-      );
-    }
+    // Supabase klientini olish
+    const { supabase } = await getAuthorizedClient(request);
 
     // Query parametrlarini olish
     const searchParams = request.nextUrl.searchParams;
@@ -25,7 +45,7 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get('type') || undefined;
     const search = searchParams.get('search') || undefined;
 
-    // Media fayllar ro'yxatini olish - Supabase mijozini o'tkazish
+    // Media fayllar ro'yxatini olish
     const { data, count, error } = await getMediaFiles({
       page,
       limit,
@@ -36,8 +56,16 @@ export async function GET(request: NextRequest) {
     if (error) throw new Error(error);
 
     return NextResponse.json({ data, count });
-  } catch (error) {
+  } catch (error: any) {
     console.error('GET /api/media xatosi:', error);
+    
+    if (error.message === "Avtorizatsiyadan o'tilmagan") {
+      return NextResponse.json(
+        { error: error.message },
+        { status: 401 }
+      );
+    }
+    
     return NextResponse.json(
       { error: 'Media fayllarni olishda xatolik yuz berdi' },
       { status: 500 }
@@ -48,17 +76,8 @@ export async function GET(request: NextRequest) {
 // Media fayl yuklash
 export async function POST(request: NextRequest) {
   try {
-    // Auth tekshirish - Next.js 13 va Supabase uchun to'g'ri sintaksis
-    const supabase = createRouteHandlerClient({ cookies });
-    
-    const { data: { session } } = await supabase.auth.getSession();
-    
-    if (!session) {
-      return NextResponse.json(
-        { error: "Avtorizatsiyadan o'tilmagan" },
-        { status: 401 }
-      );
-    }
+    // Supabase klientini olish
+    const { supabase } = await getAuthorizedClient(request);
 
     // Form data ni olish
     const formData = await request.formData();
@@ -77,8 +96,16 @@ export async function POST(request: NextRequest) {
     if (error) throw new Error(error);
 
     return NextResponse.json({ data });
-  } catch (error) {
+  } catch (error: any) {
     console.error('POST /api/media xatosi:', error);
+    
+    if (error.message === "Avtorizatsiyadan o'tilmagan") {
+      return NextResponse.json(
+        { error: error.message },
+        { status: 401 }
+      );
+    }
+    
     return NextResponse.json(
       { error: 'Media fayl yuklashda xatolik yuz berdi' },
       { status: 500 }
@@ -89,17 +116,8 @@ export async function POST(request: NextRequest) {
 // Media faylni o'chirish
 export async function DELETE(request: NextRequest) {
   try {
-    // Auth tekshirish - Next.js 13 va Supabase uchun to'g'ri sintaksis
-    const supabase = createRouteHandlerClient({ cookies });
-    
-    const { data: { session } } = await supabase.auth.getSession();
-    
-    if (!session) {
-      return NextResponse.json(
-        { error: "Avtorizatsiyadan o'tilmagan" },
-        { status: 401 }
-      );
-    }
+    // Supabase klientini olish
+    const { supabase } = await getAuthorizedClient(request);
 
     // ID ni olish
     const searchParams = request.nextUrl.searchParams;
@@ -117,8 +135,16 @@ export async function DELETE(request: NextRequest) {
     if (error) throw new Error(error);
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (error: any) {
     console.error('DELETE /api/media xatosi:', error);
+    
+    if (error.message === "Avtorizatsiyadan o'tilmagan") {
+      return NextResponse.json(
+        { error: error.message },
+        { status: 401 }
+      );
+    }
+    
     return NextResponse.json(
       { error: "Media faylni o'chirishda xatolik yuz berdi" },
       { status: 500 }
@@ -129,18 +155,9 @@ export async function DELETE(request: NextRequest) {
 // Media fayl ma'lumotlarini yangilash
 export async function PATCH(request: NextRequest) {
   try {
-    // Auth tekshirish - Next.js 13 va Supabase uchun to'g'ri sintaksis
-    const supabase = createRouteHandlerClient({ cookies });
+    // Supabase klientini olish
+    const { supabase } = await getAuthorizedClient(request);
     
-    const { data: { session } } = await supabase.auth.getSession();
-    
-    if (!session) {
-      return NextResponse.json(
-        { error: "Avtorizatsiyadan o'tilmagan" },
-        { status: 401 }
-      );
-    }
-
     // Ma'lumotlarni olish
     const body = await request.json();
     const { id, ...updates } = body;
@@ -157,8 +174,16 @@ export async function PATCH(request: NextRequest) {
     if (error) throw new Error(error);
 
     return NextResponse.json({ data });
-  } catch (error) {
+  } catch (error: any) {
     console.error('PATCH /api/media xatosi:', error);
+    
+    if (error.message === "Avtorizatsiyadan o'tilmagan") {
+      return NextResponse.json(
+        { error: error.message },
+        { status: 401 }
+      );
+    }
+    
     return NextResponse.json(
       { error: 'Media fayl ma\'lumotlarini yangilashda xatolik yuz berdi' },
       { status: 500 }

@@ -27,15 +27,27 @@ export default function MediaPage() {
       setIsLoading(true);
       setError(null);
 
-      // Supabase mijozini boshqa usulda yaratish
-      const supabaseClient = createClientComponentClient<Database>({
-        options: {
-          db: { schema: 'public' }
-        }
-      });
+      // Supabase mijozini yaratish
+      const supabase = createClientComponentClient<Database>();
+      
+      // Sessiyani olish
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        throw new Error("Avtorizatsiyadan o'tilmagan");
+      }
+      
+      const token = session.access_token;
 
-      // API orqali so'rov yuborish
-      const response = await fetch(`/api/media?page=${page}&limit=${limit}${type ? `&type=${type}` : ''}${search ? `&search=${search}` : ''}`);
+      // API so'roviga Authorization headerini qo'shish
+      const response = await fetch(
+        `/api/media?page=${page}&limit=${limit}${type ? `&type=${type}` : ''}${search ? `&search=${search}` : ''}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
       
       if (!response.ok) {
         throw new Error(`API xatolik: ${response.status}`);
