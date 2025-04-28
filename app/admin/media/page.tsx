@@ -27,17 +27,43 @@ export default function MediaPage() {
       setIsLoading(true);
       setError(null);
 
+      console.log('Media fayllarni yuklashni boshlaymiz...');
+      
       // Supabase mijozini yaratish
       const supabase = createClientComponentClient<Database>();
       
+      try {
+        // Sessiyani yangilash
+        const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession();
+        if (refreshError) {
+          console.error('Sessiyani yangilashda xatolik:', refreshError.message);
+        } else {
+          console.log('Sessiya yangilandi:', !!refreshData.session);
+        }
+      } catch (refreshErr) {
+        console.error('refreshSession exception:', refreshErr);
+      }
+      
       // Sessiyani olish
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      
+      if (sessionError) {
+        console.error('getSession xatoligi:', sessionError.message);
+      }
+      
+      console.log('Session bor:', !!session);
+      console.log('User mavjud:', session?.user?.id);
       
       if (!session) {
         throw new Error("Avtorizatsiyadan o'tilmagan");
       }
       
+      // Token olish va tekshirish
       const token = session.access_token;
+      console.log('Token mavjud:', !!token);
+      console.log('Token uzunligi:', token.length);
+      
+      console.log('API so\'rov yuborilmoqda...');
 
       // API so'roviga Authorization headerini qo'shish
       const response = await fetch(
@@ -49,7 +75,11 @@ export default function MediaPage() {
         }
       );
       
+      console.log('API javob statusi:', response.status);
+      
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API xatolik tafsilotlari:', errorText);
         throw new Error(`API xatolik: ${response.status}`);
       }
       
@@ -61,6 +91,7 @@ export default function MediaPage() {
 
       setFiles(result.data || []);
       setTotalCount(result.count || 0);
+      console.log('Media fayllar muvaffaqiyatli yuklandi:', result.data?.length || 0);
     } catch (error: any) {
       console.error('Media fayllarni yuklashda xatolik:', error);
       setError(error?.message || 'Media fayllarni yuklashda xatolik yuz berdi');

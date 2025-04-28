@@ -12,20 +12,60 @@ async function getAuthorizedClient(request: NextRequest) {
   
   // Auth headerlardan tokenni olish
   const authHeader = request.headers.get('Authorization');
+  console.log('Auth header mavjud:', !!authHeader);
+
+  let token = '';
   if (authHeader && authHeader.startsWith('Bearer ')) {
-    const token = authHeader.replace('Bearer ', '');
+    token = authHeader.replace('Bearer ', '');
+    console.log('Token uzunligi:', token.length);
     
-    // Auth sesssiyani o'rnatish
-    await supabase.auth.setSession({
-      access_token: token,
-      refresh_token: '',
-    });
+    try {
+      // Auth sessiyani o'rnatish
+      const { data, error } = await supabase.auth.setSession({
+        access_token: token,
+        refresh_token: '',
+      });
+      
+      if (error) {
+        console.error('setSession xatoligi:', error.message);
+      } else {
+        console.log('setSession muvaffaqiyatli:', !!data.session);
+      }
+    } catch (err) {
+      console.error('setSession exception:', err);
+    }
+  } else {
+    console.log('Bearer token topilmadi');
   }
   
   // Sessiyani olish
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+  
+  if (sessionError) {
+    console.error('getSession xatoligi:', sessionError.message);
+  }
+  
+  console.log('Session mavjud:', !!session);
   
   if (!session) {
+    // Sessiya yo'q bo'lsa, ikkinchi usul bilan urinib ko'ramiz - JWT parse qilish
+    if (token) {
+      try {
+        // JWT token bilan sessiya yaratish
+        const { data, error } = await supabase.auth.getUser(token);
+        
+        if (error) {
+          console.error('getUser xatoligi:', error.message);
+        } else if (data.user) {
+          console.log('User topildi, ID:', data.user.id);
+          // Sessiya yaratish o'rniga to'g'ridan to'g'ri supabase qaytaramiz
+          return { supabase, session: { user: data.user, access_token: token } as any };
+        }
+      } catch (err) {
+        console.error('getUser exception:', err);
+      }
+    }
+    
     throw new Error("Avtorizatsiyadan o'tilmagan");
   }
   
@@ -35,8 +75,11 @@ async function getAuthorizedClient(request: NextRequest) {
 // Media fayllar ro'yxatini olish
 export async function GET(request: NextRequest) {
   try {
+    console.log('GET /api/media: so\'rov keldi');
+    
     // Supabase klientini olish
     const { supabase } = await getAuthorizedClient(request);
+    console.log('GET /api/media: avtorizatsiya muvaffaqiyatli');
 
     // Query parametrlarini olish
     const searchParams = request.nextUrl.searchParams;
@@ -76,8 +119,11 @@ export async function GET(request: NextRequest) {
 // Media fayl yuklash
 export async function POST(request: NextRequest) {
   try {
+    console.log('POST /api/media: so\'rov keldi');
+    
     // Supabase klientini olish
     const { supabase } = await getAuthorizedClient(request);
+    console.log('POST /api/media: avtorizatsiya muvaffaqiyatli');
 
     // Form data ni olish
     const formData = await request.formData();
@@ -116,8 +162,11 @@ export async function POST(request: NextRequest) {
 // Media faylni o'chirish
 export async function DELETE(request: NextRequest) {
   try {
+    console.log('DELETE /api/media: so\'rov keldi');
+    
     // Supabase klientini olish
     const { supabase } = await getAuthorizedClient(request);
+    console.log('DELETE /api/media: avtorizatsiya muvaffaqiyatli');
 
     // ID ni olish
     const searchParams = request.nextUrl.searchParams;
@@ -155,8 +204,11 @@ export async function DELETE(request: NextRequest) {
 // Media fayl ma'lumotlarini yangilash
 export async function PATCH(request: NextRequest) {
   try {
+    console.log('PATCH /api/media: so\'rov keldi');
+    
     // Supabase klientini olish
     const { supabase } = await getAuthorizedClient(request);
+    console.log('PATCH /api/media: avtorizatsiya muvaffaqiyatli');
     
     // Ma'lumotlarni olish
     const body = await request.json();
