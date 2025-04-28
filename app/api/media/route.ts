@@ -6,8 +6,9 @@ import { uploadMedia, getMediaFiles, deleteMedia, updateMedia } from '@/lib/api/
 // Media fayllar ro'yxatini olish
 export async function GET(request: NextRequest) {
   try {
-    // Auth tekshirish
+    // Auth tekshirish - Next.js 13 va Supabase uchun to'g'ri sintaksis
     const supabase = createRouteHandlerClient({ cookies });
+    
     const { data: { session } } = await supabase.auth.getSession();
     
     if (!session) {
@@ -24,13 +25,13 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get('type') || undefined;
     const search = searchParams.get('search') || undefined;
 
-    // Media fayllar ro'yxatini olish
+    // Media fayllar ro'yxatini olish - Supabase mijozini o'tkazish
     const { data, count, error } = await getMediaFiles({
       page,
       limit,
       type,
       search,
-    });
+    }, supabase);
 
     if (error) throw new Error(error);
 
@@ -47,8 +48,9 @@ export async function GET(request: NextRequest) {
 // Media fayl yuklash
 export async function POST(request: NextRequest) {
   try {
-    // Auth tekshirish
+    // Auth tekshirish - Next.js 13 va Supabase uchun to'g'ri sintaksis
     const supabase = createRouteHandlerClient({ cookies });
+    
     const { data: { session } } = await supabase.auth.getSession();
     
     if (!session) {
@@ -71,7 +73,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Faylni yuklash
-    const { data, error } = await uploadMedia(file, path);
+    const { data, error } = await uploadMedia(file, path, supabase);
     if (error) throw new Error(error);
 
     return NextResponse.json({ data });
@@ -87,8 +89,9 @@ export async function POST(request: NextRequest) {
 // Media faylni o'chirish
 export async function DELETE(request: NextRequest) {
   try {
-    // Auth tekshirish
+    // Auth tekshirish - Next.js 13 va Supabase uchun to'g'ri sintaksis
     const supabase = createRouteHandlerClient({ cookies });
+    
     const { data: { session } } = await supabase.auth.getSession();
     
     if (!session) {
@@ -110,7 +113,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Faylni o'chirish
-    const { error } = await deleteMedia(id);
+    const { error } = await deleteMedia(id, supabase);
     if (error) throw new Error(error);
 
     return NextResponse.json({ success: true });
@@ -126,8 +129,9 @@ export async function DELETE(request: NextRequest) {
 // Media fayl ma'lumotlarini yangilash
 export async function PATCH(request: NextRequest) {
   try {
-    // Auth tekshirish
+    // Auth tekshirish - Next.js 13 va Supabase uchun to'g'ri sintaksis
     const supabase = createRouteHandlerClient({ cookies });
+    
     const { data: { session } } = await supabase.auth.getSession();
     
     if (!session) {
@@ -149,7 +153,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     // Ma'lumotlarni yangilash
-    const { data, error } = await updateMedia(id, updates);
+    const { data, error } = await updateMedia(id, updates, supabase);
     if (error) throw new Error(error);
 
     return NextResponse.json({ data });

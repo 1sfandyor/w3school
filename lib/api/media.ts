@@ -1,164 +1,180 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import type { Database } from '@/types/database.types';
-import { uploadFile, deleteFile } from '@/lib/supabase/storage.client';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 // Media fayl yuklash
-export async function uploadMedia(file: File, path: string = '') {
+export async function uploadMedia(file: File, path: string = '', customSupabase?: SupabaseClient) {
   try {
-    const supabase = createClientComponentClient<Database>();
+    // Agar tashqaridan client berilgan bo'lsa, shuni ishlatamiz
+    const supabase = customSupabase || createClientComponentClient<Database>();
+    
+    // Fayl nomini generatsiya qilish
+    const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+    const filePath = path ? `${path}/${fileName}` : fileName;
     
     // Faylni storage ga yuklash
-    const { url, error: uploadError } = await uploadFile(file, 'media', path);
-    if (uploadError) throw new Error(uploadError);
-
-    // Media fayl ma'lumotlarini bazaga saqlash
-    const { data: mediaFile, error: dbError } = await supabase
-      .from('media_files')
+    const { data: storageData, error: storageError } = await supabase
+      .storage
+      .from('media')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+    
+    if (storageError) throw storageError;
+    
+    // Public URL olish
+    const { data: { publicUrl } } = supabase
+      .storage
+      .from('media')
+      .getPublicUrl(filePath);
+    
+    // Media jadvaliga ma'lumot saqlash
+    const { data: mediaData, error: mediaError } = await supabase
+      .from('media')
       .insert({
-        file_name: file.name,
+        file_name: fileName,
         original_name: file.name,
-        file_size: file.size,
+        size: file.size,
         mime_type: file.type,
-        bucket_name: 'media',
-        file_path: path,
-        public_url: url,
+        path: filePath,
+        url: publicUrl,
+        file_type: getFileType(file.type)
       })
-      .select()
+      .select('*')
       .single();
-
-    if (dbError) throw dbError;
-    return { data: mediaFile, error: null };
-  } catch (error) {
-    console.error('Media fayl yuklashda xatolik:', error);
-    return { data: null, error: 'Media fayl yuklashda xatolik yuz berdi' };
+    
+    if (mediaError) throw mediaError;
+    
+    return { data: mediaData, error: null };
+  } catch (error: any) {
+    console.error('Media yuklashda xatolik:', error);
+    return { data: null, error: error.message || 'Media yuklashda xatolik yuz berdi' };
   }
 }
 
 // Media faylni o'chirish
-export async function deleteMedia(id: string) {
+export async function deleteMedia(id: string, customSupabase?: SupabaseClient) {
   try {
-    const supabase = createClientComponentClient<Database>();
+    // Agar tashqaridan client berilgan bo'lsa, shuni ishlatamiz
+    const supabase = customSupabase || createClientComponentClient<Database>();
     
     // Fayl ma'lumotlarini olish
-    const { data: mediaFile, error: fetchError } = await supabase
-      .from('media_files')
-      .select()
+    const { data: media, error: fetchError } = await supabase
+      .from('media')
+      .select('*')
       .eq('id', id)
       .single();
     
     if (fetchError) throw fetchError;
-    if (!mediaFile) throw new Error('Media fayl topilmadi');
-
-    // Storage dan o'chirish
-    const { error: storageError } = await deleteFile(
-      mediaFile.bucket_name,
-      mediaFile.file_path
-    );
-    if (storageError) throw new Error(storageError);
-
-    // Bazadan o'chirish
-    const { error: dbError } = await supabase
-      .from('media_files')
+    if (!media) throw new Error('Media fayl topilmadi');
+    
+    // Storage dan faylni o'chirish
+    const { error: storageError } = await supabase
+      .storage
+      .from('media')
+      .remove([media.path]);
+    
+    if (storageError) throw storageError;
+    
+    // Ma'lumotlar bazasidan ma'lumotni o'chirish
+    const { error: deleteError } = await supabase
+      .from('media')
       .delete()
       .eq('id', id);
     
-    if (dbError) throw dbError;
-    return { error: null };
-  } catch (error) {
+    if (deleteError) throw deleteError;
+    
+    return { success: true, error: null };
+  } catch (error: any) {
     console.error('Media faylni o\'chirishda xatolik:', error);
-    return { error: 'Media faylni o\'chirishda xatolik yuz berdi' };
+    return { success: false, error: error.message || 'Media faylni o\'chirishda xatolik yuz berdi' };
   }
 }
 
 // Media fayllar ro'yxatini olish
-export async function getMediaFiles(options: {
+export async function getMediaFiles({
+  page = 1,
+  limit = 20,
+  type,
+  search
+}: {
   page?: number;
   limit?: number;
   type?: string;
   search?: string;
-} = {}) {
+}, customSupabase?: SupabaseClient) {
   try {
-    const {
-      page = 1,
-      limit = 20,
-      type,
-      search,
-    } = options;
-
-    const supabase = createClientComponentClient<Database>();
-
-    // Get current user's profile
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .single();
-
-    // Build query
+    // Agar tashqaridan client berilgan bo'lsa, shuni ishlatamiz
+    const supabase = customSupabase || createClientComponentClient<Database>();
+    
+    // Offset hisoblash
+    const offset = (page - 1) * limit;
+    
+    // Asosiy so'rov
     let query = supabase
-      .from('media_files')
+      .from('media')
       .select('*', { count: 'exact' });
-
-    // Fayl turi bo'yicha filtrlash
+    
+    // Filter qo'shish: Fayl turi bo'yicha
     if (type) {
-      query = query.like('mime_type', `${type}%`);
+      query = query.eq('file_type', type);
     }
-
-    // Qidiruv
+    
+    // Filter qo'shish: Qidiruv so'rovi bo'yicha
     if (search) {
       query = query.or(`original_name.ilike.%${search}%,file_name.ilike.%${search}%`);
     }
-
-    // Pagination
-    const from = (page - 1) * limit;
-    const to = from + limit - 1;
     
+    // Tartib va sahifalash qo'shish
     const { data, count, error } = await query
       .order('created_at', { ascending: false })
-      .range(from, to);
-
+      .range(offset, offset + limit - 1);
+    
     if (error) throw error;
     
-    return {
-      data,
-      count,
-      error: null,
-    };
-  } catch (error) {
+    return { data, count, error: null };
+  } catch (error: any) {
     console.error('Media fayllar ro\'yxatini olishda xatolik:', error);
-    return {
-      data: [],
-      count: 0,
-      error: 'Media fayllar ro\'yxatini olishda xatolik yuz berdi',
+    return { 
+      data: [], 
+      count: 0, 
+      error: error.message || 'Media fayllar ro\'yxatini olishda xatolik yuz berdi' 
     };
   }
 }
 
 // Media fayl ma'lumotlarini yangilash
-export async function updateMedia(
-  id: string,
-  updates: {
-    file_name?: string;
-    metadata?: Record<string, any>;
-    status?: 'active' | 'archived' | 'deleted';
-  }
-) {
+export async function updateMedia(id: string, updates: any, customSupabase?: SupabaseClient) {
   try {
-    const supabase = createClientComponentClient<Database>();
+    // Agar tashqaridan client berilgan bo'lsa, shuni ishlatamiz
+    const supabase = customSupabase || createClientComponentClient<Database>();
     
+    // Ma'lumotlarni yangilash
     const { data, error } = await supabase
-      .from('media_files')
+      .from('media')
       .update(updates)
       .eq('id', id)
-      .select()
+      .select('*')
       .single();
-
+    
     if (error) throw error;
+    
     return { data, error: null };
-  } catch (error) {
-    console.error('Media fayl ma\'lumotlarini yangilashda xatolik:', error);
-    return {
-      data: null,
-      error: 'Media fayl ma\'lumotlarini yangilashda xatolik yuz berdi',
+  } catch (error: any) {
+    console.error('Media ma\'lumotlarini yangilashda xatolik:', error);
+    return { 
+      data: null, 
+      error: error.message || 'Media ma\'lumotlarini yangilashda xatolik yuz berdi' 
     };
   }
+}
+
+// Fayl turini aniqlash funksiyasi
+function getFileType(mimeType: string): string {
+  if (mimeType.startsWith('image/')) return 'image';
+  if (mimeType.startsWith('video/')) return 'video';
+  if (mimeType.startsWith('audio/')) return 'audio';
+  if (mimeType.includes('pdf')) return 'document';
+  return 'other';
 } 

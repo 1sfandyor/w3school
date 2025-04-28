@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import MediaUpload from '@/components/media/MediaUpload';
 import MediaGrid from '@/components/media/MediaGrid';
 import { getMediaFiles } from '@/lib/api/media';
+import type { Database } from '@/types/database.types';
 
 export default function MediaPage() {
   const searchParams = useSearchParams();
@@ -25,20 +27,31 @@ export default function MediaPage() {
       setIsLoading(true);
       setError(null);
 
-      const { data, count, error } = await getMediaFiles({
-        page,
-        limit,
-        type,
-        search,
+      // Supabase mijozini boshqa usulda yaratish
+      const supabaseClient = createClientComponentClient<Database>({
+        options: {
+          db: { schema: 'public' }
+        }
       });
 
-      if (error) throw new Error(error);
+      // API orqali so'rov yuborish
+      const response = await fetch(`/api/media?page=${page}&limit=${limit}${type ? `&type=${type}` : ''}${search ? `&search=${search}` : ''}`);
+      
+      if (!response.ok) {
+        throw new Error(`API xatolik: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      
+      if (result.error) {
+        throw new Error(result.error);
+      }
 
-      setFiles(data || []);
-      setTotalCount(count || 0);
-    } catch (error) {
+      setFiles(result.data || []);
+      setTotalCount(result.count || 0);
+    } catch (error: any) {
       console.error('Media fayllarni yuklashda xatolik:', error);
-      setError('Media fayllarni yuklashda xatolik yuz berdi');
+      setError(error?.message || 'Media fayllarni yuklashda xatolik yuz berdi');
     } finally {
       setIsLoading(false);
     }
