@@ -33,17 +33,40 @@ export default function MediaUpload({
     try {
       setIsUploading(true);
       
+      console.log('Fayl yuklashni boshlaymiz...');
+      
       // Supabase mijozini yaratish
       const supabase = createClientComponentClient<Database>();
       
+      try {
+        // Sessiyani yangilash
+        const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession();
+        if (refreshError) {
+          console.error('MediaUpload - Sessiyani yangilashda xatolik:', refreshError.message);
+        } else {
+          console.log('MediaUpload - Sessiya yangilandi:', !!refreshData.session);
+        }
+      } catch (refreshErr) {
+        console.error('MediaUpload - refreshSession exception:', refreshErr);
+      }
+      
       // Sessiyani olish va token olish
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      
+      if (sessionError) {
+        console.error('MediaUpload - getSession xatoligi:', sessionError.message);
+      }
+      
+      console.log('MediaUpload - Session bor:', !!session);
+      console.log('MediaUpload - User mavjud:', session?.user?.id);
       
       if (!session) {
         throw new Error("Avtorizatsiyadan o'tilmagan");
       }
       
       const token = session.access_token;
+      console.log('MediaUpload - Token mavjud:', !!token);
+      console.log('MediaUpload - Token uzunligi:', token.length);
 
       for (const file of acceptedFiles) {
         // Fayl turini tekshirish
@@ -53,11 +76,15 @@ export default function MediaUpload({
           continue;
         }
 
+        console.log('MediaUpload - Fayl yuklanyapti:', file.name, file.type, file.size);
+        
         // FormData yaratish
         const formData = new FormData();
         formData.append('file', file);
         if (path) formData.append('path', path);
 
+        console.log('MediaUpload - API so\'rov yuborilmoqda...');
+        
         // API ga auth token bilan so'rov yuborish
         const response = await fetch('/api/media', {
           method: 'POST',
@@ -67,12 +94,17 @@ export default function MediaUpload({
           body: formData,
         });
 
+        console.log('MediaUpload - API javob statusi:', response.status);
+        
         if (!response.ok) {
           const errorData = await response.json();
+          console.error('MediaUpload - API xatolik:', errorData);
           throw new Error(errorData.error || 'Fayl yuklashda xatolik');
         }
 
         const { data } = await response.json();
+        console.log('MediaUpload - Fayl muvaffaqiyatli yuklandi:', data);
+        
         if (data?.url) {
           onUpload?.(data.url);
         }
